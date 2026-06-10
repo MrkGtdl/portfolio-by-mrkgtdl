@@ -15,7 +15,7 @@ export default function LenisProvider({
     });
 
     // expose globally (optional)
-    (window as unknown).lenis = lenis;
+    (window as any).lenis = lenis;
 
     let frame: number;
 
@@ -29,7 +29,7 @@ export default function LenisProvider({
     return () => {
       cancelAnimationFrame(frame);
       lenis.destroy();
-      (window as unknown).lenis = null;
+      (window as any).lenis = null;
     };
   }, []);
 
