@@ -34,76 +34,189 @@ export default function About({ trigger }: { trigger: string }) {
   useEffect(() => {
     if (trigger !== "about") return;
 
-    controls.set({ y: -50, opacity: 0 });
+    controls.set({
+      y: -50,
+      opacity: 0,
+    });
 
     controls.start({
       y: 0,
       opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
     });
   }, [trigger, controls]);
 
   return (
-    <motion.section id="about" animate={controls} className="mt-6">
-      {/* FLOATING CONTAINER */}
+    <motion.section id="about" animate={controls} className="mt-4 md:mt-6">
       <motion.div
         className="
           relative z-10
-          min-h-[calc(100vh-3rem)] md:min-h-[calc(100vh-5rem)]
-          max-w-7xl mx-auto
-          backdrop-blur-md
-          border border-[color:var(--border)]
+
+          min-h-auto
+          lg:min-h-[calc(100vh-5rem)]
+
+          max-w-7xl
+          mx-auto
+
           rounded-2xl
-          shadow-2xl
-          px-6 md:px-12 py-24
-          flex flex-col justify-center
+          border border-[color:var(--border)]
+
           bg-[color:var(--surface)]
+          backdrop-blur-md
+          shadow-2xl
+
+          px-5
+          sm:px-8
+          md:px-12
+
+          py-12
+          sm:py-16
+          md:py-20
+          lg:py-24
+
+          flex flex-col
+          justify-center
         "
       >
         {/* HEADING */}
         <div>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-[color:var(--text)]">
+          <h2
+            className="
+              font-black
+              tracking-tight
+              text-[color:var(--text)]
+
+              text-4xl
+              sm:text-5xl
+              md:text-6xl
+              lg:text-8xl
+            "
+          >
             FULL STACK
           </h2>
 
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-[color:var(--accent)] -mt-2">
+          <h2
+            className="
+              font-black
+              tracking-tight
+              text-[color:var(--accent)]
+
+              text-4xl
+              sm:text-5xl
+              md:text-6xl
+              lg:text-8xl
+
+              -mt-1
+              md:-mt-2
+            "
+          >
             DEVELOPER
           </h2>
         </div>
 
         {/* DESCRIPTION */}
-        <p className="mt-8 max-w-xl text-lg leading-relaxed text-[color:var(--muted)]">
+        <p
+          className="
+            mt-6
+            md:mt-8
+
+            max-w-2xl
+
+            text-base
+            md:text-lg
+
+            leading-relaxed
+            text-[color:var(--muted)]
+          "
+        >
           Passionate about creating intuitive and engaging user experiences.
           Specializing in transforming ideas into beautifully crafted products.
         </p>
 
         {/* STATS */}
-        <div className="mt-20 w-full flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl w-full auto-rows-fr">
+        <div className="mt-12 md:mt-20 w-full flex justify-center">
+          <div
+            className="
+              grid
+
+              grid-cols-1
+              sm:grid-cols-3
+
+              gap-4
+              md:gap-6
+
+              w-full
+              max-w-3xl
+
+              auto-rows-fr
+            "
+          >
             {[
-              { label: "Years of Experience", value: 15 },
-              { label: "Total Projects", value: 15 },
-              { label: "Tech Stacks", value: 10 },
+              {
+                label: "Years of Experience",
+                value: 15,
+              },
+              {
+                label: "Total Projects",
+                value: 15,
+              },
+              {
+                label: "Tech Stacks",
+                value: 10,
+              },
             ].map((item, i) => (
               <div
                 key={i}
                 className="
                   h-full
+
+                  rounded-2xl
+                  border border-[color:var(--border)]
+
                   bg-[color:var(--surface)]
                   backdrop-blur-xl
-                  border border-[color:var(--border)]
-                  rounded-2xl p-6 text-center
+
+                  p-5
+                  md:p-6
+
+                  text-center
+
                   shadow-[0_10px_40px_-10px_rgba(0,0,0,0.25)]
-                  hover:-translate-y-2
-                  transition-all duration-300
-                  flex flex-col justify-center
+
+                  md:hover:-translate-y-2
+                  transition-all
+                  duration-300
+
+                  flex flex-col
+                  justify-center
                 "
               >
-                <h3 className="text-3xl md:text-4xl font-bold text-[color:var(--text)]">
+                <h3
+                  className="
+                    font-bold
+                    text-[color:var(--text)]
+
+                    text-2xl
+                    md:text-4xl
+                  "
+                >
                   <Counter value={item.value} resetKey={trigger} />
                 </h3>
 
-                <p className="mt-2 text-sm tracking-wide text-[color:var(--muted)]">
+                <p
+                  className="
+                    mt-2
+
+                    text-xs
+                    md:text-sm
+
+                    tracking-wide
+                    text-[color:var(--muted)]
+                  "
+                >
                   {item.label}
                 </p>
               </div>

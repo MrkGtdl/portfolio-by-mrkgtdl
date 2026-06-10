@@ -44,7 +44,10 @@ export default function Contact({ trigger }: { trigger: string }) {
     controls.start({
       y: 0,
       opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
     });
   }, [trigger, controls]);
 
@@ -75,12 +78,16 @@ export default function Contact({ trigger }: { trigger: string }) {
   };
 
   return (
-    <motion.section id="contact" animate={controls}>
+    <motion.section id="contact" animate={controls} className="mt-4 md:mt-6">
       <motion.div
         className="
           relative z-10
-          min-h-[calc(100vh-3rem)] md:min-h-[calc(100vh-5rem)]
-          max-w-7xl mx-auto
+
+          min-h-auto
+          lg:min-h-[calc(100vh-5rem)]
+
+          max-w-7xl
+          mx-auto
 
           bg-[color:var(--surface)]
           text-[color:var(--text)]
@@ -89,22 +96,45 @@ export default function Contact({ trigger }: { trigger: string }) {
           border border-[color:var(--border)]
           rounded-2xl shadow-2xl
 
-          px-6 md:px-12 py-8
+          px-5 sm:px-8 md:px-12
+          py-12 sm:py-16 md:py-20
+
           flex flex-col
         "
       >
         {/* HEADER */}
         <div>
-          <h2 className="text-6xl md:text-8xl font-black">LET&apos;S WORK</h2>
+          <h2
+            className="
+              font-black
 
-          <h2 className="text-6xl md:text-8xl font-black text-[color:var(--accent)]">
+              text-4xl sm:text-5xl md:text-7xl lg:text-8xl
+
+              tracking-tight
+            "
+          >
+            LET&apos;S WORK
+          </h2>
+
+          <h2
+            className="
+              font-black
+
+              text-4xl sm:text-5xl md:text-7xl lg:text-8xl
+
+              text-[color:var(--accent)]
+            "
+          >
             TOGETHER
           </h2>
         </div>
 
         {/* FORM */}
-        <div className="max-w-2xl mx-auto w-full mt-10">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="max-w-2xl mx-auto w-full mt-8 md:mt-10">
+          <form
+            className="space-y-5 md:space-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {/* NAME */}
             <div className="relative">
               <input
@@ -113,9 +143,13 @@ export default function Contact({ trigger }: { trigger: string }) {
                 placeholder=" "
                 className="
                   peer w-full
+
                   bg-transparent
+
                   border border-[color:var(--border)]
-                  rounded-xl px-4 pt-5 pb-2
+                  rounded-xl
+
+                  px-4 pt-5 pb-2
 
                   text-[color:var(--text)]
                   outline-none
@@ -129,12 +163,13 @@ export default function Contact({ trigger }: { trigger: string }) {
                 htmlFor="name"
                 className="
                   absolute left-4 top-3
+
                   text-[color:var(--muted)] text-sm
+
                   transition-all
 
                   peer-placeholder-shown:top-4
                   peer-placeholder-shown:text-base
-                  peer-placeholder-shown:text-[color:var(--muted)]
 
                   peer-focus:top-2
                   peer-focus:text-sm
@@ -145,7 +180,7 @@ export default function Contact({ trigger }: { trigger: string }) {
               </label>
 
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-xs mt-1">
                   {errors.name.message}
                 </p>
               )}
@@ -159,9 +194,13 @@ export default function Contact({ trigger }: { trigger: string }) {
                 placeholder=" "
                 className="
                   peer w-full
+
                   bg-transparent
+
                   border border-[color:var(--border)]
-                  rounded-xl px-4 pt-5 pb-2
+                  rounded-xl
+
+                  px-4 pt-5 pb-2
 
                   text-[color:var(--text)]
                   outline-none
@@ -175,7 +214,9 @@ export default function Contact({ trigger }: { trigger: string }) {
                 htmlFor="email"
                 className="
                   absolute left-4 top-3
+
                   text-[color:var(--muted)] text-sm
+
                   transition-all
 
                   peer-placeholder-shown:top-4
@@ -190,7 +231,7 @@ export default function Contact({ trigger }: { trigger: string }) {
               </label>
 
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-xs mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -205,9 +246,13 @@ export default function Contact({ trigger }: { trigger: string }) {
                 placeholder=" "
                 className="
                   peer w-full
+
                   bg-transparent
+
                   border border-[color:var(--border)]
-                  rounded-xl px-4 pt-5 pb-2
+                  rounded-xl
+
+                  px-4 pt-5 pb-2
 
                   text-[color:var(--text)]
                   outline-none
@@ -222,7 +267,9 @@ export default function Contact({ trigger }: { trigger: string }) {
                 htmlFor="message"
                 className="
                   absolute left-4 top-3
+
                   text-[color:var(--muted)] text-sm
+
                   transition-all
 
                   peer-placeholder-shown:top-4
@@ -237,7 +284,7 @@ export default function Contact({ trigger }: { trigger: string }) {
               </label>
 
               {errors.message && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-xs mt-1">
                   {errors.message.message}
                 </p>
               )}
@@ -247,18 +294,24 @@ export default function Contact({ trigger }: { trigger: string }) {
             <motion.button
               type="submit"
               disabled={loading}
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.97 }}
               className="
                 w-full
-                py-3 rounded-xl font-semibold
+
+                py-3
+
+                rounded-xl
+
+                font-semibold
 
                 bg-[color:var(--accent)]
                 text-[color:var(--bg)]
 
                 transition-all
+
                 disabled:opacity-50
               "
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97 }}
             >
               {loading ? "Sending..." : "Send Message"}
             </motion.button>
@@ -268,7 +321,7 @@ export default function Contact({ trigger }: { trigger: string }) {
               <motion.p
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-[color:var(--accent)] text-center"
+                className="text-[color:var(--accent)] text-center text-sm"
               >
                 Message sent successfully
               </motion.p>
@@ -276,7 +329,18 @@ export default function Contact({ trigger }: { trigger: string }) {
           </form>
 
           {/* SOCIAL ICONS */}
-          <div className="flex justify-center gap-6 mt-10 text-2xl text-[color:var(--muted)]">
+          <div
+            className="
+              flex flex-wrap
+              justify-center
+              gap-6
+
+              mt-8 md:mt-10
+
+              text-2xl
+              text-[color:var(--muted)]
+            "
+          >
             <Mail className="hover:text-[color:var(--accent)] transition cursor-pointer" />
             <FaGithub className="hover:text-[color:var(--accent)] transition cursor-pointer" />
             <FaLinkedin className="hover:text-[color:var(--accent)] transition cursor-pointer" />

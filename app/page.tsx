@@ -9,27 +9,51 @@ import BulbToggle from "@/components/BulbToggle";
 
 export default function Home() {
   return (
-    <main className="text-white min-h-screen flex">
-      {/* LEFT */}
+    <main
+      className="
+        min-h-screen
+        flex flex-col
+        lg:flex-row
+        text-white
+      "
+    >
+      {/* LEFT / TOP */}
       <aside
         className="
-    w-[35%]
-    h-screen
-    sticky top-0
-    border-r border-[color:var(--border)]
-    flex flex-col
-    p-8
-  "
+          w-full
+          lg:w-[35%]
+
+          lg:h-screen
+          lg:sticky lg:top-0
+
+          border-b lg:border-b-0
+          lg:border-r
+          border-[color:var(--border)]
+
+          flex flex-col
+          p-6 md:p-8
+        "
       >
-        {/* TOP */}
+        {/* NAV */}
         <div className="flex justify-center">
           <div className="rounded px-4 py-2">
             <SideNav />
           </div>
         </div>
 
-        {/* MIDDLE (CENTER AREA) */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-10">
+        {/* HERO */}
+        <div
+          className="
+            flex flex-col
+            items-center
+            justify-center
+            gap-8
+
+            py-12
+            lg:flex-1
+            lg:py-0
+          "
+        >
           <Hero />
 
           <div className="rounded px-4 py-3">
@@ -38,14 +62,22 @@ export default function Home() {
         </div>
       </aside>
 
-      {/* RIGHT (IMPORTANT CHANGE: NO overflow container) */}
+      {/* RIGHT */}
       <section
         className="
-          w-[65%]
+          w-full
+          lg:w-[65%]
+
           min-h-screen
-          p-8
-          space-y-42
-          pb-32
+
+          px-6
+          md:px-8
+          py-12
+
+          space-y-24
+          lg:space-y-40
+
+          pb-24
         "
       >
         <About />

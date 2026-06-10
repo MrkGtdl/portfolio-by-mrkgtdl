@@ -38,8 +38,16 @@ const skills = {
       description: "Progressive JavaScript Framework",
       icon: _Vue,
     },
-    { name: "Next.js", description: "React Framework", icon: NextjsIcon },
-    { name: "React", description: "UI Library", icon: _React },
+    {
+      name: "Next.js",
+      description: "React Framework",
+      icon: NextjsIcon,
+    },
+    {
+      name: "React",
+      description: "UI Library",
+      icon: _React,
+    },
     {
       name: "TypeScript",
       description: "Typed JavaScript",
@@ -51,32 +59,79 @@ const skills = {
       icon: Javascript,
     },
   ],
+
   backend: [
-    { name: "Node.js", description: "JavaScript Runtime", icon: NodejsIcon },
-    { name: "Laravel", description: "PHP Framework", icon: Laravel },
-    { name: "PHP", description: "Server-side Language", icon: Php },
-    { name: "Payload CMS", description: "Headless CMS", icon: Payload },
-    { name: "GraphQL", description: "API Query Language", icon: Graphql },
+    {
+      name: "Node.js",
+      description: "JavaScript Runtime",
+      icon: NodejsIcon,
+    },
+    {
+      name: "Laravel",
+      description: "PHP Framework",
+      icon: Laravel,
+    },
+    {
+      name: "PHP",
+      description: "Server-side Language",
+      icon: Php,
+    },
+    {
+      name: "Payload CMS",
+      description: "Headless CMS",
+      icon: Payload,
+    },
+    {
+      name: "GraphQL",
+      description: "API Query Language",
+      icon: Graphql,
+    },
   ],
+
   database: [
     {
       name: "PostgreSQL",
       description: "Relational Database",
       icon: Postgresql,
     },
-    { name: "MySQL", description: "Relational Database", icon: Mysql },
-    { name: "SQL Server", description: "Relational Database", icon: Microsoft },
+    {
+      name: "MySQL",
+      description: "Relational Database",
+      icon: Mysql,
+    },
+    {
+      name: "SQL Server",
+      description: "Relational Database",
+      icon: Microsoft,
+    },
     {
       name: "Supabase",
       description: "Backend-as-a-Service",
       icon: SupabaseIcon,
     },
   ],
+
   others: [
-    { name: "Git", description: "Version Control System", icon: GitIcon },
-    { name: "Docker", description: "Containerization", icon: DockerIcon },
-    { name: "ChatGPT", description: "AI Assistant", icon: OpenaiIcon },
-    { name: "Gemini", description: "AI Assistant", icon: GoogleGemini },
+    {
+      name: "Git",
+      description: "Version Control System",
+      icon: GitIcon,
+    },
+    {
+      name: "Docker",
+      description: "Containerization",
+      icon: DockerIcon,
+    },
+    {
+      name: "ChatGPT",
+      description: "AI Assistant",
+      icon: OpenaiIcon,
+    },
+    {
+      name: "Gemini",
+      description: "AI Assistant",
+      icon: GoogleGemini,
+    },
   ],
 };
 
@@ -92,55 +147,129 @@ export default function Skills({ trigger }: { trigger: string }) {
   useEffect(() => {
     if (trigger !== "skills") return;
 
-    controls.set({ y: -50, opacity: 0 });
+    controls.set({
+      y: -50,
+      opacity: 0,
+    });
 
     controls.start({
       y: 0,
       opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
     });
   }, [trigger, controls]);
 
   const container = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
   };
 
   const item = {
-    hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0 },
+    hidden: {
+      opacity: 0,
+      y: 10,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+    },
   };
 
   return (
-    <motion.section id="skills" animate={controls}>
+    <motion.section id="skills" animate={controls} className="mt-4 md:mt-6">
       <motion.div
         className="
           relative z-10
-          min-h-[calc(100vh-3rem)] md:min-h-[calc(100vh-5rem)]
-          max-w-7xl mx-auto
-          backdrop-blur-md
-          border border-[color:var(--border)]
-          bg-[color:var(--surface)]
+
+          min-h-auto
+          lg:min-h-[calc(100vh-5rem)]
+
+          max-w-7xl
+          mx-auto
+
           rounded-2xl
+          border border-[color:var(--border)]
+
+          bg-[color:var(--surface)]
+          backdrop-blur-md
           shadow-2xl
-          px-6 md:px-12 py-8
-          flex flex-col justify-start
+
+          px-5
+          sm:px-8
+          md:px-12
+
+          py-12
+          sm:py-16
+          md:py-20
         "
       >
         {/* HEADING */}
         <div>
-          <h2 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight text-[color:var(--text)]">
+          <h2
+            className="
+              font-black
+              tracking-tight
+              text-[color:var(--text)]
+
+              text-4xl
+              sm:text-5xl
+              md:text-7xl
+              lg:text-8xl
+            "
+          >
             MY
           </h2>
 
-          <h2 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight text-[color:var(--accent)] -mt-2">
+          <h2
+            className="
+              font-black
+              tracking-tight
+              text-[color:var(--accent)]
+
+              text-4xl
+              sm:text-5xl
+              md:text-7xl
+              lg:text-8xl
+
+              -mt-1
+              md:-mt-2
+            "
+          >
             TOOLKIT
           </h2>
         </div>
 
         {/* TABS */}
-        {/* TABS */}
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-4">
+        <div
+          className="
+            mt-8
+
+            flex flex-row
+            md:flex-col
+
+            justify-center
+            md:justify-start
+
+            gap-3
+            md:gap-4
+
+            md:absolute
+            md:right-6
+            md:top-1/2
+            md:-translate-y-1/2
+
+            overflow-x-auto
+            pb-2
+          "
+        >
           {tabs.map((tab) => {
             const Icon = tab.icon;
 
@@ -154,66 +283,60 @@ export default function Skills({ trigger }: { trigger: string }) {
                 onHoverStart={() => setHoveredTab(tab.key)}
                 onHoverEnd={() => setHoveredTab(null)}
                 animate={{
-                  scale: isHovered ? 1.45 : hasHoveredNeighbor ? 1.1 : 1,
-                  x: isHovered ? -6 : 0,
+                  scale: isHovered ? 1.15 : hasHoveredNeighbor ? 1.05 : 1,
                 }}
                 transition={{
                   type: "spring",
                   stiffness: 400,
                   damping: 18,
                 }}
-                whileTap={{ scale: 0.9 }}
-                className="relative group p-2"
+                whileTap={{ scale: 0.95 }}
+                className="
+                  relative
+
+                  flex items-center gap-2
+
+                  px-3 py-2
+
+                  rounded-xl
+
+                  border border-[color:var(--border)]
+
+                  bg-[color:var(--surface)]
+
+                  shrink-0
+                "
               >
-                <motion.div
-                  animate={{
-                    filter:
-                      activeTab === tab.key
-                        ? "drop-shadow(0 0 12px var(--accent))"
-                        : "drop-shadow(0 0 0px transparent)",
-                  }}
-                >
-                  <Icon
-                    size={22}
-                    className={`transition-colors duration-300 ${
+                <Icon
+                  size={18}
+                  className={
+                    activeTab === tab.key
+                      ? "text-[color:var(--accent)]"
+                      : "text-[color:var(--muted)]"
+                  }
+                />
+
+                <span
+                  className={`
+                    text-sm whitespace-nowrap
+                    ${
                       activeTab === tab.key
                         ? "text-[color:var(--accent)]"
-                        : "text-[color:var(--muted)] group-hover:text-[color:var(--text)]"
-                    }`}
-                  />
-                </motion.div>
-
-                {/* Tooltip */}
-                <motion.span
-                  initial={false}
-                  animate={{
-                    opacity: isHovered ? 1 : 0,
-                    scale: isHovered ? 1 : 0.9,
-                    x: isHovered ? 0 : 10,
-                  }}
-                  transition={{ duration: 0.15 }}
-                  className="
-            pointer-events-none
-            absolute right-full mr-4 top-1/2 -translate-y-1/2
-            whitespace-nowrap rounded-md
-            bg-[color:var(--surface)]
-            border border-[color:var(--border)]
-            px-2 py-1 text-xs
-            text-[color:var(--text)]
-          "
+                        : "text-[color:var(--text)]"
+                    }
+                  `}
                 >
                   {tab.label}
-                </motion.span>
+                </span>
 
-                {/* Active Indicator */}
                 {activeTab === tab.key && (
                   <motion.div
                     layoutId="active-tab-indicator"
                     className="
-              absolute -left-4 top-1/2 -translate-y-1/2
-              w-1 h-8 rounded-full
-              bg-[color:var(--accent)]
-            "
+                      absolute inset-0
+                      rounded-xl
+                      border border-[color:var(--accent)]
+                    "
                   />
                 )}
               </motion.button>
@@ -229,44 +352,82 @@ export default function Skills({ trigger }: { trigger: string }) {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-8"
+            className="mt-10"
           >
-            <section className="w-full flex justify-center pr-20">
-              <div className="w-full max-w-4xl px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                  {skills[activeTab].map((skill) => {
-                    const Icon = skill.icon;
+            <div
+              className="
+                grid
+                grid-cols-1
+                sm:grid-cols-2
+                gap-4
+              "
+            >
+              {skills[activeTab].map((skill) => {
+                const Icon = skill.icon;
 
-                    return (
-                      <motion.div
-                        key={skill.name}
-                        variants={item}
-                        whileHover={{ scale: 1.03 }}
+                return (
+                  <motion.div
+                    key={skill.name}
+                    variants={item}
+                    whileHover={{ scale: 1.02 }}
+                    className="
+                      flex items-center gap-4
+
+                      p-4
+
+                      rounded-xl
+
+                      border border-[color:var(--border)]
+
+                      bg-[color:var(--surface)]
+                    "
+                  >
+                    <div
+                      className="
+                        w-12 h-12
+                        md:w-14 md:h-14
+
+                        rounded-xl
+
+                        bg-white
+
+                        flex items-center justify-center
+
+                        shrink-0
+                      "
+                    >
+                      <Icon className="w-7 h-7 text-black" />
+                    </div>
+
+                    <div className="min-w-0">
+                      <h3
                         className="
-                          flex items-center gap-4 w-full
-                          p-3 rounded-xl
-                          border border-[color:var(--border)]
-                          bg-[color:var(--surface)]
+                          text-base
+                          md:text-lg
+
+                          font-semibold
+
+                          text-[color:var(--text)]
                         "
                       >
-                        <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shrink-0">
-                          <Icon className="w-8 h-8 text-black" />
-                        </div>
+                        {skill.name}
+                      </h3>
 
-                        <div>
-                          <h3 className="text-lg font-semibold text-[color:var(--text)]">
-                            {skill.name}
-                          </h3>
-                          <p className="text-sm text-[color:var(--muted)]">
-                            {skill.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </div>
-            </section>
+                      <p
+                        className="
+                          text-xs
+                          md:text-sm
+
+                          text-[color:var(--muted)]
+                        "
+                      >
+                        {skill.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
         </AnimatePresence>
       </motion.div>

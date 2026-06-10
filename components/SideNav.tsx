@@ -4,15 +4,6 @@ import { Home, User, Folder, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-const iconVariants = {
-  rest: { scale: 1, y: 0 },
-  hover: {
-    scale: 1.25,
-    y: -2,
-    transition: { type: "tween", duration: 0.15, ease: "easeOut" },
-  },
-};
-
 export default function SideNav() {
   const [active, setActive] = useState("about");
   const [hovered, setHovered] = useState<string | null>(null);
@@ -26,10 +17,9 @@ export default function SideNav() {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const lenis = (window as unknown).lenis;
+    const lenis = (window as unknown as { lenis?: any }).lenis;
 
     if (!lenis) {
-      // fallback
       window.scrollTo({
         top: el.offsetTop,
         behavior: "smooth",
@@ -45,7 +35,7 @@ export default function SideNav() {
   };
 
   // ----------------------------
-  // Stable active section tracking
+  // Active section tracking
   // ----------------------------
   useEffect(() => {
     const sections = ["about", "skills", "projects", "contact"];
@@ -56,7 +46,6 @@ export default function SideNav() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // pick the MOST visible section (prevents flicker)
         let bestMatch: { id: string; ratio: number } | null = null;
 
         entries.forEach((entry) => {
@@ -98,10 +87,26 @@ export default function SideNav() {
   return (
     <nav
       className="
-        flex items-center gap-10 px-3 py-2
+        flex items-center justify-center
+
+        gap-3
+        sm:gap-5
+        md:gap-8
+        lg:gap-10
+
+        px-2
+        sm:px-3
+        md:px-4
+
+        py-2
+
         rounded-2xl
-        bg-white/5 backdrop-blur-xl
+        bg-white/5
+        backdrop-blur-xl
         shadow-lg
+
+        w-full
+        max-w-fit
       "
     >
       {items.map(({ icon: Icon, id, label }, index) => {
@@ -114,14 +119,17 @@ export default function SideNav() {
         if (hoveredIndex !== -1) {
           const distance = Math.abs(index - hoveredIndex);
 
-          if (distance === 0) scale = 1.5;
-          else if (distance === 1) scale = 1.2;
-          else if (distance === 2) scale = 1.05;
+          if (distance === 0) scale = 1.3;
+          else if (distance === 1) scale = 1.12;
+          else if (distance === 2) scale = 1.03;
         }
 
         return (
-          <div key={id} className="relative flex items-center justify-center">
-            {/* Tooltip */}
+          <div
+            key={id}
+            className="relative flex flex-col items-center justify-center"
+          >
+            {/* Desktop Tooltip */}
             <AnimatePresence>
               {hovered === id && (
                 <motion.div
@@ -130,29 +138,36 @@ export default function SideNav() {
                   exit={{ opacity: 0, y: 8, scale: 0.9 }}
                   transition={{ duration: 0.15 }}
                   className="
-              absolute top-12
-              px-2 py-1
-              text-xs
-              rounded-md
-              whitespace-nowrap
-              bg-[color:var(--surface)]
-              border border-[color:var(--border)]
-              text-[color:var(--text)]
-            "
+                    hidden md:block
+
+                    absolute top-14
+
+                    px-2 py-1
+                    text-xs
+
+                    rounded-md
+                    whitespace-nowrap
+
+                    bg-[color:var(--surface)]
+                    border border-[color:var(--border)]
+                    text-[color:var(--text)]
+                  "
                 >
                   {label}
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Active pill */}
+            {/* Active Pill */}
             {isActive && (
               <motion.div
                 layoutId="active-pill"
                 className="
-            absolute inset-0 rounded-xl
-            bg-[color:var(--accent)]
-          "
+                  absolute
+                  inset-0
+                  rounded-xl
+                  bg-[color:var(--accent)]
+                "
                 transition={{
                   type: "spring",
                   stiffness: 500,
@@ -165,6 +180,7 @@ export default function SideNav() {
               onClick={() => scrollTo(id)}
               onHoverStart={() => setHovered(id)}
               onHoverEnd={() => setHovered(null)}
+              whileTap={{ scale: 0.9 }}
               animate={{
                 scale,
                 y: hovered === id ? -4 : 0,
@@ -175,11 +191,16 @@ export default function SideNav() {
                 damping: 18,
               }}
               className="
-          relative z-10
-          w-14 h-14
-          flex items-center justify-center
-          rounded-xl
-        "
+                relative z-10
+
+                w-10 h-10
+                sm:w-12 sm:h-12
+                md:w-14 md:h-14
+
+                flex items-center justify-center
+
+                rounded-xl
+              "
             >
               <motion.div
                 animate={{
@@ -190,13 +211,28 @@ export default function SideNav() {
                 }
               >
                 <Icon
-                  size={22}
-                  className={
-                    isActive ? "text-white" : "text-[color:var(--muted)]"
-                  }
+                  className={`
+                    w-4 h-4
+                    sm:w-5 sm:h-5
+                    md:w-[22px] md:h-[22px]
+                    ${isActive ? "text-white" : "text-[color:var(--muted)]"}
+                  `}
                 />
               </motion.div>
             </motion.button>
+
+            {/* Mobile Label */}
+            <span
+              className="
+                mt-1
+                text-[10px]
+                md:hidden
+
+                text-[color:var(--muted)]
+              "
+            >
+              {label}
+            </span>
           </div>
         );
       })}

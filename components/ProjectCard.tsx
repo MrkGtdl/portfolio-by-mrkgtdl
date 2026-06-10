@@ -21,21 +21,77 @@ export default function ProjectCard({
     <motion.div
       layoutId={`project-${project.title}`}
       whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(project)}
       className="
-        rounded-xl border border-[color:var(--border)]
+        rounded-xl
+
+        border border-[color:var(--border)]
+
         bg-[color:var(--surface)]
-        backdrop-blur-md overflow-hidden cursor-pointer
+        backdrop-blur-md
+
+        overflow-hidden
+        cursor-pointer
+
+        transition-transform
+
+        active:scale-[0.98]
       "
     >
-      <div className="h-40 flex items-center justify-center bg-[color:var(--bg)]/40">
-        <p className="text-[color:var(--muted)]">{project.title}</p>
+      {/* IMAGE / HEADER AREA */}
+      <div
+        className="
+          h-28 sm:h-36 md:h-40
+
+          flex items-center justify-center
+
+          bg-[color:var(--bg)]/40
+
+          overflow-hidden
+        "
+      >
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.title}
+            className="
+              w-full h-full
+              object-cover
+              transition-transform duration-300
+              hover:scale-105
+            "
+          />
+        ) : (
+          <p className="text-[color:var(--muted)] text-sm sm:text-base">
+            {project.title}
+          </p>
+        )}
       </div>
 
-      <div className="p-5">
-        <h3 className="text-lg font-semibold">{project.title}</h3>
+      {/* CONTENT */}
+      <div className="p-3 sm:p-5">
+        <h3
+          className="
+            text-base sm:text-lg
+            font-semibold
+            text-[color:var(--text)]
+          "
+        >
+          {project.title}
+        </h3>
 
-        <p className="text-sm text-[color:var(--muted)]">
+        <p
+          className="
+            mt-1 sm:mt-2
+
+            text-xs sm:text-sm
+
+            text-[color:var(--muted)]
+
+            line-clamp-3
+          "
+        >
           {project.description}
         </p>
       </div>
