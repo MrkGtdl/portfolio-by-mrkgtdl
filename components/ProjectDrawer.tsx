@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
 import type { Project } from "@/constants/projects";
+import ProjectCard from "@/components/ProjectCard";
 
 type Props = {
   open: boolean;
@@ -11,17 +13,15 @@ type Props = {
   projects: Project[];
 };
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 5;
 
 export default function ProjectDrawer({ open, onClose, projects }: Props) {
   const [page, setPage] = useState(1);
 
-  // reset page on open
   useEffect(() => {
     if (open) setPage(1);
   }, [open]);
 
-  // lock scroll
   useEffect(() => {
     if (!open) return;
 
@@ -32,7 +32,6 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
     };
   }, [open]);
 
-  // ESC close
   useEffect(() => {
     if (!open) return;
 
@@ -41,13 +40,25 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
     };
 
     window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
   }, [open, onClose]);
 
   const start = (page - 1) * ITEMS_PER_PAGE;
   const paginatedProjects = projects.slice(start, start + ITEMS_PER_PAGE);
 
   const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+
+  const handleProjectOpen = (project: Project) => {
+    console.log(project);
+
+    // future:
+    // setSelectedProject(project)
+    // open modal
+    // route to details page
+  };
 
   return (
     <AnimatePresence>
@@ -78,12 +89,12 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
 
               rounded-2xl
 
-              border border-black/5 dark:border-white/10
+              border border-[color:var(--border)]
 
-              bg-white/12 dark:bg-white/5
+              bg-[color:var(--surface)]
               backdrop-blur-xl
 
-              shadow-lg shadow-black/10
+              shadow-xl
 
               overflow-hidden
             "
@@ -94,36 +105,44 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
               type: "spring",
               stiffness: 140,
               damping: 20,
-              mass: 1.1,
             }}
           >
             {/* HEADER */}
             <div
               className="
-                h-14 sm:h-16
+                h-16
 
                 flex items-center justify-between
 
                 px-4 sm:px-6
 
-                border-b border-white/10
+                border-b border-[color:var(--border)]
+
+                shrink-0
               "
             >
-              <div className="leading-tight">
-                <h4 className="text-xl sm:text-2xl font-black text-[color:var(--text)]">
-                  PROJECT
-                </h4>
-                <h4 className="text-xl sm:text-2xl font-black text-[color:var(--accent)]">
-                  DETAILS
-                </h4>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-[color:var(--text)]">
+                  PROJECTS
+                </h2>
+
+                <p className="text-xs sm:text-sm text-[color:var(--muted)]">
+                  Portfolio Showcase
+                </p>
               </div>
 
               <button
                 onClick={onClose}
                 className="
-                  text-[color:var(--text)]/70
+                  p-2
+
+                  rounded-lg
+
+                  text-[color:var(--muted)]
+
                   hover:text-[color:var(--text)]
-                  hover:scale-110
+                  hover:bg-[color:var(--bg)]
+
                   transition
                 "
               >
@@ -132,8 +151,7 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
             </div>
 
             {/* BODY */}
-            <div className="flex-1 flex flex-col p-3 sm:p-6 overflow-y-auto">
-              {/* GRID */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               <div
                 className="
                   grid
@@ -145,140 +163,74 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
                 "
               >
                 {paginatedProjects.map((project) => (
-                  <div
+                  <ProjectCard
                     key={project.title}
-                    className="
-                      h-auto sm:h-[280px]
+                    project={project}
+                    onOpen={handleProjectOpen}
+                  />
+                ))}
+              </div>
 
-                      rounded-xl
+              {/* PAGINATION */}
+              {totalPages > 1 && (
+                <div
+                  className="
+                    flex items-center justify-center
+                    gap-4
+                    mt-8
+                  "
+                >
+                  <button
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="
+                      px-4 py-2
+
+                      rounded-lg
 
                       border border-[color:var(--border)]
 
                       bg-[color:var(--surface)]
 
-                      shadow-md
+                      text-[color:var(--text)]
 
-                      p-3 sm:p-4
-
-                      flex flex-col justify-between
+                      disabled:opacity-40
+                      disabled:cursor-not-allowed
 
                       transition
-
-                      hover:scale-[1.02]
-                      hover:shadow-lg
                     "
                   >
-                    {/* IMAGE */}
-                    {project.image && (
-                      <div
-                        className="
-                          w-full
-
-                          h-[90px] sm:h-[110px]
-
-                          rounded-lg
-
-                          overflow-hidden
-
-                          mb-3
-                        "
-                      >
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="
-                            w-full h-full object-cover
-
-                            transition-transform duration-300
-
-                            hover:scale-110
-                          "
-                        />
-                      </div>
-                    )}
-
-                    {/* TITLE + DESC */}
-                    <div>
-                      <h2 className="text-base sm:text-lg font-semibold text-[color:var(--text)]">
-                        {project.title}
-                      </h2>
-
-                      <p className="text-xs sm:text-sm text-[color:var(--text)]/70 mt-2 line-clamp-3">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* TAGS */}
-                    <div className="flex gap-2 mt-3 text-[10px] sm:text-xs flex-wrap">
-                      {project.date && (
-                        <span className="px-2 py-1 rounded bg-white/10 text-[color:var(--text)]/70">
-                          📅 {project.date}
-                        </span>
-                      )}
-
-                      {project.jobType && (
-                        <span className="px-2 py-1 rounded bg-white/10 text-white/70">
-                          💼 {project.jobType}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* PAGINATION */}
-              <div
-                className="
-                  flex flex-col sm:flex-row
-                  justify-center items-center
-
-                  gap-3
-
-                  mt-6
-                "
-              >
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                    disabled={page === 1}
-                    className="
-                      px-3 py-1
-
-                      rounded
-
-                      bg-[color:var(--surface)]
-
-                      text-[color:var(--text)]/70
-
-                      disabled:opacity-30
-                    "
-                  >
-                    Prev
+                    Previous
                   </button>
 
-                  <span className="text-xs sm:text-sm text-[color:var(--text)]/70">
-                    {page} / {totalPages}
+                  <span className="text-sm text-[color:var(--muted)]">
+                    Page {page} of {totalPages}
                   </span>
 
                   <button
-                    onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
                     className="
-                      px-3 py-1
+                      px-4 py-2
 
-                      rounded
+                      rounded-lg
+
+                      border border-[color:var(--border)]
 
                       bg-[color:var(--surface)]
 
-                      text-[color:var(--text)]/70
+                      text-[color:var(--text)]
 
-                      disabled:opacity-30
+                      disabled:opacity-40
+                      disabled:cursor-not-allowed
+
+                      transition
                     "
                   >
                     Next
                   </button>
                 </div>
-              </div>
+              )}
             </div>
           </motion.div>
         </>
