@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
@@ -22,7 +22,10 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function Contact({ trigger }: { trigger: string }) {
+export default function Contact() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { margin: "-100px" });
+
   const controls = useAnimation();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -37,7 +40,7 @@ export default function Contact({ trigger }: { trigger: string }) {
   });
 
   useEffect(() => {
-    if (trigger !== "contact") return;
+    if (!isInView) return;
 
     controls.set({ y: -50, opacity: 0 });
 
@@ -49,7 +52,7 @@ export default function Contact({ trigger }: { trigger: string }) {
         ease: "easeOut",
       },
     });
-  }, [trigger, controls]);
+  }, [isInView, controls]);
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -78,7 +81,12 @@ export default function Contact({ trigger }: { trigger: string }) {
   };
 
   return (
-    <motion.section id="contact" animate={controls} className="mt-4 md:mt-6">
+    <motion.section
+      ref={sectionRef}
+      id="contact"
+      animate={controls}
+      className="mt-4 md:mt-6"
+    >
       <motion.div
         className="
           relative z-10
@@ -104,27 +112,11 @@ export default function Contact({ trigger }: { trigger: string }) {
       >
         {/* HEADER */}
         <div>
-          <h2
-            className="
-              font-black
-
-              text-4xl sm:text-5xl md:text-7xl lg:text-8xl
-
-              tracking-tight
-            "
-          >
+          <h2 className="font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight">
             LET&apos;S WORK
           </h2>
 
-          <h2
-            className="
-              font-black
-
-              text-4xl sm:text-5xl md:text-7xl lg:text-8xl
-
-              text-[color:var(--accent)]
-            "
-          >
+          <h2 className="font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-[color:var(--accent)]">
             TOGETHER
           </h2>
         </div>
@@ -143,17 +135,12 @@ export default function Contact({ trigger }: { trigger: string }) {
                 placeholder=" "
                 className="
                   peer w-full
-
                   bg-transparent
-
                   border border-[color:var(--border)]
                   rounded-xl
-
                   px-4 pt-5 pb-2
-
                   text-[color:var(--text)]
                   outline-none
-
                   focus:border-[color:var(--accent)]
                   transition
                 "
@@ -163,14 +150,10 @@ export default function Contact({ trigger }: { trigger: string }) {
                 htmlFor="name"
                 className="
                   absolute left-4 top-3
-
                   text-[color:var(--muted)] text-sm
-
                   transition-all
-
                   peer-placeholder-shown:top-4
                   peer-placeholder-shown:text-base
-
                   peer-focus:top-2
                   peer-focus:text-sm
                   peer-focus:text-[color:var(--accent)]
@@ -194,17 +177,12 @@ export default function Contact({ trigger }: { trigger: string }) {
                 placeholder=" "
                 className="
                   peer w-full
-
                   bg-transparent
-
                   border border-[color:var(--border)]
                   rounded-xl
-
                   px-4 pt-5 pb-2
-
                   text-[color:var(--text)]
                   outline-none
-
                   focus:border-[color:var(--accent)]
                   transition
                 "
@@ -214,14 +192,10 @@ export default function Contact({ trigger }: { trigger: string }) {
                 htmlFor="email"
                 className="
                   absolute left-4 top-3
-
                   text-[color:var(--muted)] text-sm
-
                   transition-all
-
                   peer-placeholder-shown:top-4
                   peer-placeholder-shown:text-base
-
                   peer-focus:top-2
                   peer-focus:text-sm
                   peer-focus:text-[color:var(--accent)]
@@ -246,18 +220,13 @@ export default function Contact({ trigger }: { trigger: string }) {
                 placeholder=" "
                 className="
                   peer w-full
-
                   bg-transparent
-
                   border border-[color:var(--border)]
                   rounded-xl
-
                   px-4 pt-5 pb-2
-
                   text-[color:var(--text)]
                   outline-none
                   resize-none
-
                   focus:border-[color:var(--accent)]
                   transition
                 "
@@ -267,14 +236,10 @@ export default function Contact({ trigger }: { trigger: string }) {
                 htmlFor="message"
                 className="
                   absolute left-4 top-3
-
                   text-[color:var(--muted)] text-sm
-
                   transition-all
-
                   peer-placeholder-shown:top-4
                   peer-placeholder-shown:text-base
-
                   peer-focus:top-2
                   peer-focus:text-sm
                   peer-focus:text-[color:var(--accent)]
@@ -298,18 +263,12 @@ export default function Contact({ trigger }: { trigger: string }) {
               whileTap={{ scale: 0.97 }}
               className="
                 w-full
-
                 py-3
-
                 rounded-xl
-
                 font-semibold
-
                 bg-[color:var(--accent)]
                 text-[color:var(--bg)]
-
                 transition-all
-
                 disabled:opacity-50
               "
             >
@@ -329,18 +288,7 @@ export default function Contact({ trigger }: { trigger: string }) {
           </form>
 
           {/* SOCIAL ICONS */}
-          <div
-            className="
-              flex flex-wrap
-              justify-center
-              gap-6
-
-              mt-8 md:mt-10
-
-              text-2xl
-              text-[color:var(--muted)]
-            "
-          >
+          <div className="flex flex-wrap justify-center gap-6 mt-8 md:mt-10 text-2xl text-[color:var(--muted)]">
             <Mail className="hover:text-[color:var(--accent)] transition cursor-pointer" />
             <FaGithub className="hover:text-[color:var(--accent)] transition cursor-pointer" />
             <FaLinkedin className="hover:text-[color:var(--accent)] transition cursor-pointer" />

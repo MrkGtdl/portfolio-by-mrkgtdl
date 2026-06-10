@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { projects } from "@/constants/projects";
 import ProjectDrawer from "./ProjectDrawer";
 import ProjectCard from "@/components/ProjectCard";
@@ -9,14 +9,17 @@ import type { Project } from "@/components/ProjectCard";
 
 const featuredProjects = projects.slice(0, 3);
 
-export default function Projects({ trigger }: { trigger: string }) {
+export default function Projects() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { margin: "-100px" });
+
   const controls = useAnimation();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    if (trigger !== "projects") return;
+    if (!isInView) return;
 
     controls.set({
       y: -50,
@@ -31,11 +34,16 @@ export default function Projects({ trigger }: { trigger: string }) {
         ease: "easeOut",
       },
     });
-  }, [trigger, controls]);
+  }, [isInView, controls]);
 
   return (
     <>
-      <motion.section id="projects" animate={controls} className="mt-4 md:mt-6">
+      <motion.section
+        ref={sectionRef}
+        id="projects"
+        animate={controls}
+        className="mt-4 md:mt-6"
+      >
         <motion.div
           animate={{
             scale: drawerOpen ? 0.97 : 1,
@@ -73,36 +81,11 @@ export default function Projects({ trigger }: { trigger: string }) {
         >
           {/* TITLE */}
           <div>
-            <h2
-              className="
-                font-black
-                tracking-tight
-                text-[color:var(--text)]
-
-                text-4xl
-                sm:text-5xl
-                md:text-7xl
-                lg:text-8xl
-              "
-            >
+            <h2 className="font-black tracking-tight text-[color:var(--text)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl">
               THINGS
             </h2>
 
-            <h2
-              className="
-                font-black
-                tracking-tight
-                text-[color:var(--accent)]
-
-                text-4xl
-                sm:text-5xl
-                md:text-7xl
-                lg:text-8xl
-
-                -mt-1
-                md:-mt-2
-              "
-            >
+            <h2 className="font-black tracking-tight text-[color:var(--accent)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl -mt-1 md:-mt-2">
               I&apos;VE BUILT
             </h2>
           </div>
@@ -114,10 +97,8 @@ export default function Projects({ trigger }: { trigger: string }) {
               grid-cols-1
               sm:grid-cols-2
               lg:grid-cols-3
-
               gap-5
               md:gap-6
-
               mt-10
             "
           >
@@ -134,15 +115,7 @@ export default function Projects({ trigger }: { trigger: string }) {
           </div>
 
           {/* BUTTON */}
-          <div
-            className="
-              mt-8
-
-              flex
-              justify-stretch
-              sm:justify-end
-            "
-          >
+          <div className="mt-8 flex justify-stretch sm:justify-end">
             <motion.button
               onClick={() => {
                 setSelectedProject(null);
@@ -152,9 +125,7 @@ export default function Projects({ trigger }: { trigger: string }) {
                 w-full
                 sm:w-auto
 
-                px-8
-                py-3
-
+                px-8 py-3
                 rounded-lg
                 font-semibold
 
@@ -164,13 +135,8 @@ export default function Projects({ trigger }: { trigger: string }) {
                 transition-all
                 duration-300
               "
-              whileHover={{
-                scale: 1.03,
-                y: -2,
-              }}
-              whileTap={{
-                scale: 0.97,
-              }}
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
             >
               See More
             </motion.button>

@@ -1,7 +1,12 @@
 "use client";
 
-import { motion, useAnimation, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import {
+  motion,
+  useAnimation,
+  AnimatePresence,
+  useInView,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Layout, Server, Wrench, Database } from "lucide-react";
 import {
   _React,
@@ -80,7 +85,10 @@ const skills = {
   ],
 };
 
-export default function Skills({ trigger }: { trigger: string }) {
+export default function Skills() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { margin: "-100px" });
+
   const [activeTab, setActiveTab] = useState<
     "frontend" | "backend" | "database" | "others"
   >("frontend");
@@ -90,7 +98,7 @@ export default function Skills({ trigger }: { trigger: string }) {
   const controls = useAnimation();
 
   useEffect(() => {
-    if (trigger !== "skills") return;
+    if (!isInView) return;
 
     controls.set({ y: -50, opacity: 0 });
 
@@ -99,7 +107,7 @@ export default function Skills({ trigger }: { trigger: string }) {
       opacity: 1,
       transition: { duration: 0.6, ease: "easeOut" },
     });
-  }, [trigger, controls]);
+  }, [isInView, controls]);
 
   const container = {
     hidden: { opacity: 0 },
@@ -112,7 +120,12 @@ export default function Skills({ trigger }: { trigger: string }) {
   };
 
   return (
-    <motion.section id="skills" animate={controls} className="mt-4 md:mt-6">
+    <motion.section
+      ref={sectionRef}
+      id="skills"
+      animate={controls}
+      className="mt-4 md:mt-6"
+    >
       <motion.div
         className="
           relative z-10
@@ -140,7 +153,7 @@ export default function Skills({ trigger }: { trigger: string }) {
 
         {/* MAIN LAYOUT */}
         <div className="flex flex-col md:flex-row gap-8 pb-24 md:pb-0">
-          {/* ================= SKILLS ================= */}
+          {/* SKILLS */}
           <div className="flex-1">
             <AnimatePresence mode="wait">
               <motion.div
@@ -187,17 +200,15 @@ export default function Skills({ trigger }: { trigger: string }) {
             </AnimatePresence>
           </div>
 
-          {/* ================= TABS ================= */}
+          {/* TABS */}
           <div
             className="
               fixed md:static
               bottom-4 left-1/2 -translate-x-1/2
-
               md:translate-x-0 md:left-auto md:bottom-auto
 
               flex md:flex-col flex-row
               items-center
-
               gap-2
 
               px-3 py-2 md:px-0 md:py-0
@@ -234,17 +245,7 @@ export default function Skills({ trigger }: { trigger: string }) {
                     damping: 18,
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className="
-                    group relative
-
-                    w-10 h-10
-
-                    flex items-center justify-center
-
-                    rounded-xl
-
-                    shrink-0
-                  "
+                  className="group relative w-10 h-10 flex items-center justify-center rounded-xl shrink-0"
                 >
                   <Icon
                     size={18}
