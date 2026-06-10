@@ -12,20 +12,22 @@ export default function LenisProvider({
     const lenis = new Lenis({
       duration: 1.1,
       smoothWheel: true,
-      smoothTouch: false,
     });
 
-    // 🔥 IMPORTANT: expose globally
+    // expose globally (optional)
     (window as unknown).lenis = lenis;
+
+    let frame: number;
 
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      frame = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    frame = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(frame);
       lenis.destroy();
       (window as unknown).lenis = null;
     };
