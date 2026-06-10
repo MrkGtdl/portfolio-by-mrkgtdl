@@ -11,7 +11,7 @@ export default function SideNav() {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const lenis = (window as any).lenis;
+    const lenis = (window as unknown).lenis;
 
     if (lenis) {
       lenis.scrollTo(el, {
