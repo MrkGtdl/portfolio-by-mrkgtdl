@@ -2,9 +2,11 @@
 
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+
 import { projects } from "@/constants/projects";
-import ProjectDrawer from "./ProjectDrawer";
 import ProjectCard from "@/components/ProjectCard";
+import ProjectModal from "@/components/ProjectModal";
+import ProjectDrawer from "./ProjectDrawer";
 import type { Project } from "@/components/ProjectCard";
 
 const featuredProjects = projects.slice(0, 3);
@@ -15,8 +17,11 @@ export default function Projects() {
 
   const controls = useAnimation();
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  // ✅ MODAL STATE (card click)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // ✅ DRAWER STATE (See More button)
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (!isInView) return;
@@ -46,8 +51,8 @@ export default function Projects() {
       >
         <motion.div
           animate={{
-            scale: drawerOpen ? 0.97 : 1,
-            opacity: drawerOpen ? 0.85 : 1,
+            scale: drawerOpen || selectedProject ? 0.97 : 1,
+            opacity: drawerOpen || selectedProject ? 0.85 : 1,
           }}
           transition={{
             type: "spring",
@@ -81,56 +86,36 @@ export default function Projects() {
         >
           {/* TITLE */}
           <div>
-            <h2 className="font-black tracking-tight text-[color:var(--text)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl">
+            <h2 className="font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl">
               THINGS
             </h2>
 
-            <h2 className="font-black tracking-tight text-[color:var(--accent)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl -mt-1 md:-mt-2">
+            <h2 className="font-black text-[color:var(--accent)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl -mt-1 md:-mt-2">
               I&apos;VE BUILT
             </h2>
           </div>
 
           {/* PROJECT GRID */}
-          <div
-            className="
-              grid
-              grid-cols-1
-              sm:grid-cols-2
-              lg:grid-cols-3
-              gap-5
-              md:gap-6
-              mt-10
-            "
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
             {featuredProjects.map((project) => (
               <ProjectCard
                 key={project.title}
                 project={project}
-                clickable={false}
+                onOpen={(p) => setSelectedProject(p)} // ✅ MODAL OPEN
               />
             ))}
           </div>
 
-          {/* BUTTON */}
+          {/* SEE MORE BUTTON */}
           <div className="mt-8 flex justify-stretch sm:justify-end">
             <motion.button
-              onClick={() => {
-                setSelectedProject(null);
-                setDrawerOpen(true);
-              }}
+              onClick={() => setDrawerOpen(true)} // ✅ DRAWER OPEN
               className="
-                w-full
-                sm:w-auto
-
+                w-full sm:w-auto
                 px-8 py-3
-                rounded-lg
-                font-semibold
-
+                rounded-lg font-semibold
                 bg-[color:var(--accent)]
                 text-black
-
-                transition-all
-                duration-300
               "
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
@@ -141,11 +126,18 @@ export default function Projects() {
         </motion.div>
       </motion.section>
 
-      {/* DRAWER */}
+      {/* ✅ MODAL (CARD CLICK) */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+
+      {/* ✅ DRAWER (SEE MORE BUTTON) */}
       <ProjectDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         projects={projects}
+        onOpen={(p) => setSelectedProject(p)} // ✅ ADD THIS
       />
     </>
   );

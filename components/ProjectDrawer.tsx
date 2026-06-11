@@ -11,11 +11,17 @@ type Props = {
   open: boolean;
   onClose: () => void;
   projects: Project[];
+  onOpen: (project: Project) => void; // ✅ ADD THIS
 };
 
 const ITEMS_PER_PAGE = 6;
 
-export default function ProjectDrawer({ open, onClose, projects }: Props) {
+export default function ProjectDrawer({
+  open,
+  onClose,
+  projects,
+  onOpen,
+}: Props) {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -261,7 +267,7 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
                           <ProjectCard
                             key={project.title}
                             project={project}
-                            onOpen={() => {}}
+                            onOpen={onOpen}
                           />
                         ))}
                       </div>

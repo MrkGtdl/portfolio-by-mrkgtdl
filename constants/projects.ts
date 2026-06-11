@@ -1,47 +1,59 @@
 export type Project = {
+  id: string;
   title: string;
   description: string;
   date: string;
   jobType: string;
   image: string[];
+  hasModal?: boolean;
 };
 
 export const projects: Project[] = [
   {
+    id: "brp",
     title: "Beurs Resource Projector (BRP)",
     description: "Smart hub for project and resource control.",
     date: "2025-Present",
     jobType: "Full-Time",
     image: ["/BRP/brp-1.png", "/BRP/brp-2.png", "/BRP/brp-3.png"],
+    hasModal: true,
   },
   {
+    id: "mdt",
     title: "Master Data Tool (MDT)",
     description:
       "Web system for logging, tracking, and managing incident reports in real-time.",
     date: "2025",
     jobType: "Full-Time",
     image: ["/MDT/mdt-1.png", "/MDT/mdt-2.jpeg", "/MDT/mdt-3.jpeg"],
+    hasModal: true,
   },
   {
+    id: "hris",
     title: "Human Resources Information System (HRIS)",
     description: "Comprehensive HR management platform.",
     date: "2025",
     jobType: "Full-Time",
     image: ["/HRIS/hris-2.jpeg", "/HRIS/hris-1.jpeg", "/HRIS/hris-3.png"],
+    hasModal: true,
   },
   {
+    id: "pepsi",
     title: "Pepsi Philippines",
     description: "E-commerce platform for Pepsi products in the Philippines.",
     date: "2023-2024",
     jobType: "Full-Time",
     image: ["/Pepsi/pep-1.png", "/Pepsi/pep-2.png", "/Pepsi/pep-3.png"],
+    hasModal: true,
   },
   {
+    id: "hertz",
     title: "Hertz Philippines",
     description: "Car rental booking system for Hertz Philippines.",
     date: "2023",
     jobType: "Full-Time",
     image: ["/Hertz/hertz-1.png", "/Hertz/hertz-2.png", "/Hertz/hertz-3.png"],
+    hasModal: true,
   },
   // {
   //   title: "Ringing-SuiteCRM",
@@ -66,12 +78,14 @@ export const projects: Project[] = [
   //   image: ["/no-preview.png"],
   // },
   {
+    id: "qms",
     title: "Qualicare Medical Clinic",
     description:
       "Medical clinic management system built with PHP and REST API.",
     date: "2023",
     jobType: "Freelance",
     image: ["/QMS/qms-1.png", "/QMS/qms-2.png", "/QMS/qms-3.png"],
+    hasModal: true,
   },
   // {
   //   title: "Outsoar Website",
@@ -88,6 +102,7 @@ export const projects: Project[] = [
   //   image: ["/no-preview.png"],
   // },
   {
+    id: "MediSync",
     title: "MediSync",
     description:
       "A digital appointment system that helps healthcare facilities manage patients, consultations, schedules, and provider assignments in one secure and organized platform.",
@@ -98,5 +113,6 @@ export const projects: Project[] = [
       "/medisync/med-2.png",
       "/medisync/med-3.png",
     ],
+    hasModal: true,
   },
 ];

@@ -9,19 +9,22 @@ export type Project = {
   date?: string;
   jobType?: string;
   image: string[];
+
+  // 👇 controls if this card opens modal
+  hasModal?: boolean;
 };
 
 export default function ProjectCard({
   project,
   onOpen,
-  clickable = true,
 }: {
   project: Project;
   onOpen?: (project: Project) => void;
-  clickable?: boolean;
 }) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+
+  const clickable = !!project.hasModal;
 
   useEffect(() => {
     if (paused || project.image.length <= 1) return;
@@ -35,31 +38,30 @@ export default function ProjectCard({
 
   return (
     <motion.div
-      layoutId={`project-${project.title}`}
+      layoutId={`project-${project.id}`}
       whileHover={clickable ? { scale: 1.02 } : undefined}
       whileTap={clickable ? { scale: 0.98 } : undefined}
-      onClick={clickable ? () => onOpen?.(project) : undefined}
+      onClick={() => {
+        console.log("CLICKED:", project.title);
+
+        if (project.hasModal) {
+          onOpen?.(project);
+        }
+      }}
       className={`
         group
         rounded-xl
         overflow-hidden
-        ${clickable ? "cursor-pointer" : "cursor-default"}
-
         border border-[color:var(--border)]
         bg-[color:var(--surface)]
         backdrop-blur-md
-
         transition-all duration-300
+        ${clickable ? "cursor-pointer" : "cursor-default"}
       `}
     >
       {/* IMAGE CAROUSEL */}
       <div
-        className="
-          relative
-          h-40 sm:h-48 md:h-52
-          overflow-hidden
-          bg-[color:var(--bg)]/40
-        "
+        className="relative h-40 sm:h-48 md:h-52 overflow-hidden bg-[color:var(--bg)]/40"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -78,16 +80,22 @@ export default function ProjectCard({
                   absolute inset-0
                   w-full h-full
                   object-cover
-                  transition-transform duration-500
                   ${clickable ? "group-hover:scale-105" : ""}
                 `}
               />
             </AnimatePresence>
 
-            {/* Gradient overlay */}
+            {/* overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
-            {/* Dots */}
+            {/* modal badge */}
+            {project.hasModal && (
+              <div className="absolute top-3 right-3 bg-black/60 text-white text-[10px] px-2 py-1 rounded-full backdrop-blur">
+                View Details
+              </div>
+            )}
+
+            {/* dots */}
             {project.image.length > 1 && (
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 {project.image.map((_, index) => (
@@ -116,54 +124,24 @@ export default function ProjectCard({
 
       {/* CONTENT */}
       <div className="p-4 sm:p-5">
-        <h3
-          className="
-            text-base sm:text-lg
-            font-semibold
-            text-[color:var(--text)]
-            line-clamp-1
-          "
-        >
+        <h3 className="text-base sm:text-lg font-semibold text-[color:var(--text)] line-clamp-1">
           {project.title}
         </h3>
 
-        <p
-          className="
-            mt-2
-            text-xs sm:text-sm
-            text-[color:var(--muted)]
-            line-clamp-3
-          "
-        >
+        <p className="mt-2 text-xs sm:text-sm text-[color:var(--muted)] line-clamp-3">
           {project.description}
         </p>
 
         {(project.date || project.jobType) && (
           <div className="mt-3 flex flex-wrap gap-2">
             {project.date && (
-              <span
-                className="
-                  rounded-full
-                  px-2.5 py-1
-                  text-[10px] sm:text-xs
-                  bg-[color:var(--bg)]
-                  text-[color:var(--muted)]
-                "
-              >
+              <span className="rounded-full px-2.5 py-1 text-[10px] sm:text-xs bg-[color:var(--bg)] text-[color:var(--muted)]">
                 {project.date}
               </span>
             )}
 
             {project.jobType && (
-              <span
-                className="
-                  rounded-full
-                  px-2.5 py-1
-                  text-[10px] sm:text-xs
-                  bg-[color:var(--bg)]
-                  text-[color:var(--muted)]
-                "
-              >
+              <span className="rounded-full px-2.5 py-1 text-[10px] sm:text-xs bg-[color:var(--bg)] text-[color:var(--muted)]">
                 {project.jobType}
               </span>
             )}
