@@ -13,25 +13,28 @@ type Props = {
   projects: Project[];
 };
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 6;
 
 export default function ProjectDrawer({ open, onClose, projects }: Props) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    if (open) setPage(1);
+    if (open) setPage(0);
   }, [open]);
 
+  // lock scroll
   useEffect(() => {
     if (!open) return;
 
-    document.body.classList.add("overflow-hidden");
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.style.overflow = original;
     };
   }, [open]);
 
+  // ESC close
   useEffect(() => {
     if (!open) return;
 
@@ -40,24 +43,13 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
     };
 
     window.addEventListener("keydown", handleEsc);
-
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
+    return () => window.removeEventListener("keydown", handleEsc);
   }, [open, onClose]);
-
-  const start = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedProjects = projects.slice(start, start + ITEMS_PER_PAGE);
 
   const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
 
-  const handleProjectOpen = (project: Project) => {
-    console.log(project);
-
-    // future:
-    // setSelectedProject(project)
-    // open modal
-    // route to details page
+  const changePage = (newPage: number) => {
+    setPage(Math.max(0, Math.min(totalPages - 1, newPage)));
   };
 
   return (
@@ -66,7 +58,7 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
         <>
           {/* BACKDROP */}
           <motion.div
-            className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -81,7 +73,7 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
               left-1/2 -translate-x-1/2
 
               w-[95%] sm:w-[92%]
-              h-[92vh] sm:h-[95vh]
+              h-[90vh] sm:h-[95vh]
 
               z-[1000]
 
@@ -91,10 +83,12 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
 
               border border-[color:var(--border)]
 
-              bg-[color:var(--surface)]
-              backdrop-blur-xl
+              bg-[color:var(--bg)]
+              dark:bg-black/40
 
-              shadow-xl
+              backdrop-blur-2xl
+
+              shadow-2xl
 
               overflow-hidden
             "
@@ -125,112 +119,156 @@ export default function ProjectDrawer({ open, onClose, projects }: Props) {
                 <h2 className="text-xl sm:text-2xl font-black text-[color:var(--text)]">
                   PROJECTS
                 </h2>
-
                 <p className="text-xs sm:text-sm text-[color:var(--muted)]">
                   Portfolio Showcase
                 </p>
               </div>
 
-              <button
-                onClick={onClose}
-                className="
-                  p-2
+              <div className="flex items-center gap-3">
+                {/* PAGINATION */}
+                {totalPages > 1 && (
+                  <div
+                    className="
+                      flex items-center gap-1
 
-                  rounded-lg
+                      px-2 py-1
 
-                  text-[color:var(--muted)]
+                      rounded-lg
 
-                  hover:text-[color:var(--text)]
-                  hover:bg-[color:var(--bg)]
+                      bg-white/10 dark:bg-white/5
+                      backdrop-blur-md
 
-                  transition
-                "
-              >
-                <X size={22} />
-              </button>
-            </div>
+                      border border-white/10 dark:border-white/10
+                    "
+                  >
+                    <button
+                      onClick={() => changePage(page - 1)}
+                      disabled={page === 0}
+                      className="
+                        px-3 py-1
 
-            {/* BODY */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-              <div
-                className="
-                  grid
-                  grid-cols-1
-                  sm:grid-cols-2
-                  lg:grid-cols-3
+                        rounded-md
 
-                  gap-4 sm:gap-6
-                "
-              >
-                {paginatedProjects.map((project) => (
-                  <ProjectCard
-                    key={project.title}
-                    project={project}
-                    onOpen={handleProjectOpen}
-                  />
-                ))}
-              </div>
+                        text-sm
+                        text-[color:var(--text)]
 
-              {/* PAGINATION */}
-              {totalPages > 1 && (
-                <div
+                        hover:bg-white/20
+
+                        transition
+
+                        disabled:opacity-30
+                        disabled:cursor-not-allowed
+                      "
+                    >
+                      Prev
+                    </button>
+
+                    <span className="text-xs text-[color:var(--muted)] px-2 whitespace-nowrap">
+                      {page + 1} / {totalPages}
+                    </span>
+
+                    <button
+                      onClick={() => changePage(page + 1)}
+                      disabled={page === totalPages - 1}
+                      className="
+                        px-3 py-1
+
+                        rounded-md
+
+                        text-sm
+                        text-[color:var(--text)]
+
+                        hover:bg-white/20
+
+                        transition
+
+                        disabled:opacity-30
+                        disabled:cursor-not-allowed
+                      "
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+
+                {/* CLOSE */}
+                <button
+                  onClick={onClose}
                   className="
-                    flex items-center justify-center
-                    gap-4
-                    mt-8
+                    p-2 rounded-lg
+
+                    text-[color:var(--muted)]
+
+                    hover:text-[color:var(--text)]
+                    hover:bg-white/10
+
+                    transition
                   "
                 >
-                  <button
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    className="
-                      px-4 py-2
+                  <X size={22} />
+                </button>
+              </div>
+            </div>
 
-                      rounded-lg
+            {/* CAROUSEL BODY */}
+            <div className="flex-1 overflow-hidden relative">
+              <motion.div
+                className="flex h-full"
+                animate={{
+                  x: `-${page * 100}%`,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 22,
+                }}
+              >
+                {Array.from({ length: totalPages }).map((_, i) => {
+                  const pageProjects = projects.slice(
+                    i * ITEMS_PER_PAGE,
+                    i * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
+                  );
 
-                      border border-[color:var(--border)]
+                  return (
+                    <div
+                      key={i}
+                      className="
+                        min-w-full
 
-                      bg-[color:var(--surface)]
+                        flex
+                        justify-center
+                        items-start
 
-                      text-[color:var(--text)]
+                        p-3 sm:p-6
+                      "
+                    >
+                      <div
+                        className="
+                          w-full
 
-                      disabled:opacity-40
-                      disabled:cursor-not-allowed
+                          grid
+                          grid-cols-1
+                          sm:grid-cols-2
+                          lg:grid-cols-3
 
-                      transition
-                    "
-                  >
-                    Previous
-                  </button>
+                          gap-4 sm:gap-6
 
-                  <span className="text-sm text-[color:var(--muted)]">
-                    Page {page} of {totalPages}
-                  </span>
-
-                  <button
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
-                    className="
-                      px-4 py-2
-
-                      rounded-lg
-
-                      border border-[color:var(--border)]
-
-                      bg-[color:var(--surface)]
-
-                      text-[color:var(--text)]
-
-                      disabled:opacity-40
-                      disabled:cursor-not-allowed
-
-                      transition
-                    "
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
+                          content-start
+                          auto-rows-max
+                        "
+                      >
+                        {pageProjects.map((project) => (
+                          <ProjectCard
+                            key={project.title}
+                            project={project}
+                            onOpen={() => {}}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </motion.div>
             </div>
           </motion.div>
         </>

@@ -14,9 +14,11 @@ export type Project = {
 export default function ProjectCard({
   project,
   onOpen,
+  clickable = true,
 }: {
   project: Project;
-  onOpen: (project: Project) => void;
+  onOpen?: (project: Project) => void;
+  clickable?: boolean;
 }) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -34,21 +36,21 @@ export default function ProjectCard({
   return (
     <motion.div
       layoutId={`project-${project.title}`}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={() => onOpen(project)}
-      className="
+      whileHover={clickable ? { scale: 1.02 } : undefined}
+      whileTap={clickable ? { scale: 0.98 } : undefined}
+      onClick={clickable ? () => onOpen?.(project) : undefined}
+      className={`
         group
         rounded-xl
         overflow-hidden
-        cursor-pointer
+        ${clickable ? "cursor-pointer" : "cursor-default"}
 
         border border-[color:var(--border)]
         bg-[color:var(--surface)]
         backdrop-blur-md
 
         transition-all duration-300
-      "
+      `}
     >
       {/* IMAGE CAROUSEL */}
       <div
@@ -72,13 +74,13 @@ export default function ProjectCard({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="
+                className={`
                   absolute inset-0
                   w-full h-full
                   object-cover
-                  group-hover:scale-105
                   transition-transform duration-500
-                "
+                  ${clickable ? "group-hover:scale-105" : ""}
+                `}
               />
             </AnimatePresence>
 

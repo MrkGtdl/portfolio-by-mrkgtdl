@@ -120,9 +120,9 @@ export default function About() {
             "
           >
             {[
-              { label: "Years of Experience", value: 15 },
-              { label: "Total Projects", value: 15 },
-              { label: "Tech Stacks", value: 10 },
+              { label: "Years of Experience", value: 4 },
+              { label: "Total Projects", value: 7 },
+              { label: "Tech Skills", value: 16 },
             ].map((item, i) => (
               <div
                 key={i}

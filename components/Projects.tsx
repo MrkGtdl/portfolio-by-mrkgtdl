@@ -106,10 +106,7 @@ export default function Projects() {
               <ProjectCard
                 key={project.title}
                 project={project}
-                onOpen={(p) => {
-                  setSelectedProject(p);
-                  setDrawerOpen(true);
-                }}
+                clickable={false}
               />
             ))}
           </div>
