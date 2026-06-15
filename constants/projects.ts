@@ -22,7 +22,15 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/BRP/brp-1.png", "/BRP/brp-2.png", "/BRP/brp-3.png"],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "PayloadCMS"],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "TailwindCSS",
+      "PayloadCMS",
+      "PostgreSQL",
+      "Docker",
+      "React",
+    ],
   },
   {
     id: "mdt",
@@ -33,7 +41,16 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/MDT/mdt-1.png", "/MDT/mdt-2.jpeg", "/MDT/mdt-3.jpeg"],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
+    stack: [
+      "Next.js",
+      "RedwoodJS",
+      "TypeScript",
+      "TailwindCSS",
+      "GraphQL",
+      "PostgreSQL",
+      "Docker",
+      "React",
+    ],
   },
   {
     id: "hris",
@@ -43,7 +60,15 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/HRIS/hris-2.jpeg", "/HRIS/hris-1.jpeg", "/HRIS/hris-3.png"],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
+    stack: [
+      "Next.js",
+      "RedwoodJS",
+      "TypeScript",
+      "TailwindCSS",
+      "GraphQL",
+      "PostgreSQL",
+      "React",
+    ],
   },
   {
     id: "pepsi",
@@ -53,7 +78,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/Pepsi/pep-1.png", "/Pepsi/pep-2.png", "/Pepsi/pep-3.png"],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
+    stack: ["Php", "Laravel", "Javascript", "MySQL", "Docker"],
   },
   {
     id: "hertz",
@@ -63,7 +88,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/Hertz/hertz-1.png", "/Hertz/hertz-2.png", "/Hertz/hertz-3.png"],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
+    stack: ["Php", "Javascript", "Jquery", "Laravel", "MySQL"],
   },
   // {
   //   title: "Ringing-SuiteCRM",
@@ -96,7 +121,7 @@ export const projects: Project[] = [
     jobType: "Freelance",
     image: ["/QMS/qms-1.png", "/QMS/qms-2.png", "/QMS/qms-3.png"],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
+    stack: ["Php", "Javascript", "Jquery", "MySQL"],
   },
   // {
   //   title: "Outsoar Website",
@@ -125,6 +150,6 @@ export const projects: Project[] = [
       "/medisync/med-3.png",
     ],
     hasModal: true,
-    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "React", "Supabase"],
   },
 ];

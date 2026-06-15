@@ -10,6 +10,17 @@ import {
   SiFramer,
   SiNodedotjs,
   SiMongodb,
+  SiPayloadcms,
+  SiPostgresql,
+  SiGraphql,
+  SiRedwoodjs,
+  SiPhp,
+  SiMysql,
+  SiLaravel,
+  SiJquery,
+  SiJavascript,
+  SiDocker,
+  SiSupabase,
 } from "react-icons/si";
 import type { Project } from "@/constants/projects";
 import { useEffect, useState } from "react";
@@ -27,6 +38,17 @@ const stackIcons: Record<string, JSX.Element> = {
   "Framer Motion": <SiFramer size={14} />,
   "Node.js": <SiNodedotjs size={14} />,
   MongoDB: <SiMongodb size={14} />,
+  PayloadCMS: <SiPayloadcms size={14} />,
+  PostgreSQL: <SiPostgresql size={14} />,
+  GraphQL: <SiGraphql size={14} />,
+  RedwoodJS: <SiRedwoodjs size={14} />,
+  Php: <SiPhp size={14} />,
+  Laravel: <SiLaravel size={14} />,
+  MySQL: <SiMysql size={14} />,
+  Jquery: <SiJquery size={14} />,
+  Javascript: <SiJavascript size={14} />,
+  Docker: <SiDocker size={14} />,
+  Supabase: <SiSupabase size={14} />,
 };
 
 export default function ProjectModal({ project, onClose }: Props) {
@@ -51,7 +73,7 @@ export default function ProjectModal({ project, onClose }: Props) {
         <>
           {/* BACKDROP */}
           <motion.div
-            className="fixed inset-0 z-[9998] backdrop-blur-md bg-black/40 dark:bg-black/75"
+            className="fixed inset-0 z-[9998] h-full backdrop-blur-md bg-black/40 dark:bg-black/75"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
