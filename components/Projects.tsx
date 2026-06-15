@@ -75,7 +75,10 @@ export default function Projects() {
         >
           {/* TITLE */}
           <div>
-            <h2 className="font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl">
+            <h2
+              className="font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl"
+              style={{ color: "var(--text)" }}
+            >
               THINGS
             </h2>
             <h2 className="font-black text-[color:var(--accent)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl -mt-1 md:-mt-2">
@@ -101,10 +104,16 @@ export default function Projects() {
               className="
                 w-full sm:w-auto
                 px-8 py-3
-                rounded-lg font-semibold
-                bg-[color:var(--accent)]
-                text-black
+                rounded-lg
+                font-semibold
+                transition-all
+                shadow-sm
+                hover:shadow-md
               "
+              style={{
+                background: "var(--accent)",
+                color: "var(--bg)", // ensures contrast in BOTH themes
+              }}
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
             >

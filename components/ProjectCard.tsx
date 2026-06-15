@@ -1,16 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export type Project = {
+  id?: string | number;
   title: string;
   description: string;
   date?: string;
   jobType?: string;
   image: string[];
 
-  // 👇 controls if this card opens modal
+  // Controls if this card opens modal
   hasModal?: boolean;
 };
 
@@ -21,29 +21,14 @@ export default function ProjectCard({
   project: Project;
   onOpen?: (project: Project) => void;
 }) {
-  const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-
   const clickable = !!project.hasModal;
-
-  useEffect(() => {
-    if (paused || project.image.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % project.image.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [paused, project.image]);
 
   return (
     <motion.div
-      layoutId={`project-${project.id}`}
+      layoutId={`project-${project.id ?? project.title}`}
       whileHover={clickable ? { scale: 1.02 } : undefined}
       whileTap={clickable ? { scale: 0.98 } : undefined}
       onClick={() => {
-        console.log("CLICKED:", project.title);
-
         if (project.hasModal) {
           onOpen?.(project);
         }
@@ -59,59 +44,28 @@ export default function ProjectCard({
         ${clickable ? "cursor-pointer" : "cursor-default"}
       `}
     >
-      {/* IMAGE CAROUSEL */}
-      <div
-        className="relative h-40 sm:h-48 md:h-52 overflow-hidden bg-[color:var(--bg)]/40"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
+      {/* IMAGE */}
+      <div className="relative h-40 sm:h-48 md:h-52 overflow-hidden bg-[color:var(--bg)]/40">
         {project.image.length > 0 ? (
           <>
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={project.image[current]}
-                src={project.image[current]}
-                alt={project.title}
-                initial={{ opacity: 0, scale: 1.05 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className={`
-                  absolute inset-0
-                  w-full h-full
-                  object-cover
-                  ${clickable ? "group-hover:scale-105" : ""}
-                `}
-              />
-            </AnimatePresence>
+            <img
+              src={project.image[0]}
+              alt={project.title}
+              className={`
+                w-full h-full
+                object-cover
+                transition-transform duration-300
+                ${clickable ? "group-hover:scale-105" : ""}
+              `}
+            />
 
-            {/* overlay */}
+            {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
-            {/* modal badge */}
+            {/* Modal Badge */}
             {project.hasModal && (
               <div className="absolute top-3 right-3 bg-black/60 text-white text-[10px] px-2 py-1 rounded-full backdrop-blur">
                 View Details
-              </div>
-            )}
-
-            {/* dots */}
-            {project.image.length > 1 && (
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                {project.image.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrent(index);
-                    }}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      current === index
-                        ? "w-5 bg-white"
-                        : "w-2 bg-white/50 hover:bg-white/80"
-                    }`}
-                  />
-                ))}
               </div>
             )}
           </>

@@ -1,10 +1,15 @@
 export type Project = {
-  id: string;
   title: string;
   description: string;
-  date: string;
-  jobType: string;
+  date?: string;
+  jobType?: string;
   image: string[];
+
+  features?: string[];
+  liveUrl?: string;
+
+  stack?: string[];
+
   hasModal?: boolean;
 };
 
@@ -17,6 +22,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/BRP/brp-1.png", "/BRP/brp-2.png", "/BRP/brp-3.png"],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "PayloadCMS"],
   },
   {
     id: "mdt",
@@ -27,6 +33,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/MDT/mdt-1.png", "/MDT/mdt-2.jpeg", "/MDT/mdt-3.jpeg"],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
   },
   {
     id: "hris",
@@ -36,6 +43,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/HRIS/hris-2.jpeg", "/HRIS/hris-1.jpeg", "/HRIS/hris-3.png"],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
   },
   {
     id: "pepsi",
@@ -45,6 +53,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/Pepsi/pep-1.png", "/Pepsi/pep-2.png", "/Pepsi/pep-3.png"],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
   },
   {
     id: "hertz",
@@ -54,6 +63,7 @@ export const projects: Project[] = [
     jobType: "Full-Time",
     image: ["/Hertz/hertz-1.png", "/Hertz/hertz-2.png", "/Hertz/hertz-3.png"],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
   },
   // {
   //   title: "Ringing-SuiteCRM",
@@ -86,6 +96,7 @@ export const projects: Project[] = [
     jobType: "Freelance",
     image: ["/QMS/qms-1.png", "/QMS/qms-2.png", "/QMS/qms-3.png"],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
   },
   // {
   //   title: "Outsoar Website",
@@ -114,5 +125,6 @@ export const projects: Project[] = [
       "/medisync/med-3.png",
     ],
     hasModal: true,
+    stack: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
   },
 ];

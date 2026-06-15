@@ -2,12 +2,31 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  SiNextdotjs,
+  SiReact,
+  SiTypescript,
+  SiTailwindcss,
+  SiFramer,
+  SiNodedotjs,
+  SiMongodb,
+} from "react-icons/si";
 import type { Project } from "@/constants/projects";
 import { useEffect, useState } from "react";
 
 type Props = {
   project: Project | null;
   onClose: () => void;
+};
+
+const stackIcons: Record<string, JSX.Element> = {
+  "Next.js": <SiNextdotjs size={14} />,
+  React: <SiReact size={14} />,
+  TypeScript: <SiTypescript size={14} />,
+  TailwindCSS: <SiTailwindcss size={14} />,
+  "Framer Motion": <SiFramer size={14} />,
+  "Node.js": <SiNodedotjs size={14} />,
+  MongoDB: <SiMongodb size={14} />,
 };
 
 export default function ProjectModal({ project, onClose }: Props) {
@@ -32,7 +51,7 @@ export default function ProjectModal({ project, onClose }: Props) {
         <>
           {/* BACKDROP */}
           <motion.div
-            className="fixed inset-0 z-[9998] backdrop-blur-sm bg-black/40 dark:bg-black/70"
+            className="fixed inset-0 z-[9998] backdrop-blur-md bg-black/40 dark:bg-black/75"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -57,10 +76,14 @@ export default function ProjectModal({ project, onClose }: Props) {
                 p-4 pt-14
                 sm:p-6 sm:pt-16
                 rounded-3xl
-                bg-white dark:bg-zinc-900
-                border border-zinc-200 dark:border-zinc-800
+                backdrop-blur-xl
                 shadow-2xl
               "
+              style={{
+                background:
+                  "color-mix(in srgb, var(--surface) 95%, transparent)",
+                border: "1px solid var(--border)",
+              }}
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
@@ -74,13 +97,15 @@ export default function ProjectModal({ project, onClose }: Props) {
                   h-11 w-11
                   flex items-center justify-center
                   rounded-full
-                  bg-white dark:bg-zinc-800
-                  text-zinc-700 dark:text-zinc-200
-                  border border-zinc-200 dark:border-zinc-700
                   shadow-lg
                   hover:scale-105
-                  transition
+                  transition-all duration-200
                 "
+                style={{
+                  background: "var(--surface)",
+                  color: "var(--text)",
+                  border: "1px solid var(--border)",
+                }}
               >
                 <X size={18} />
               </button>
@@ -90,15 +115,17 @@ export default function ProjectModal({ project, onClose }: Props) {
                 className="
                   relative
                   w-full
-                  h-[85vh]
+                  h-[70vh]
                   overflow-hidden
                   rounded-2xl
-                  bg-zinc-50 dark:bg-zinc-950
-                  border border-zinc-200 dark:border-zinc-800
                   shadow-xl
                   flex
                   flex-col
                 "
+                style={{
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                }}
                 initial={{ scale: 0.98 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.98 }}
@@ -120,10 +147,9 @@ export default function ProjectModal({ project, onClose }: Props) {
                     </AnimatePresence>
                   )}
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                  {/* Prev */}
+                  {/* PREV */}
                   {project.image?.length > 1 && (
                     <button
                       onClick={() =>
@@ -135,20 +161,23 @@ export default function ProjectModal({ project, onClose }: Props) {
                       }
                       className="
                         absolute left-4 top-1/2 -translate-y-1/2
-                        h-10 w-10
-                        rounded-full
-                        bg-black/40 text-white
-                        backdrop-blur
+                        h-10 w-10 rounded-full
+                        text-white
+                        backdrop-blur-md
                         flex items-center justify-center
-                        hover:bg-black/60
-                        transition
+                        hover:scale-105
+                        transition-all
                       "
+                      style={{
+                        background: "rgba(255,255,255,0.15)",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                      }}
                     >
                       <ChevronLeft size={20} />
                     </button>
                   )}
 
-                  {/* Next */}
+                  {/* NEXT */}
                   {project.image?.length > 1 && (
                     <button
                       onClick={() =>
@@ -160,20 +189,23 @@ export default function ProjectModal({ project, onClose }: Props) {
                       }
                       className="
                         absolute right-4 top-1/2 -translate-y-1/2
-                        h-10 w-10
-                        rounded-full
-                        bg-black/40 text-white
-                        backdrop-blur
+                        h-10 w-10 rounded-full
+                        text-white
+                        backdrop-blur-md
                         flex items-center justify-center
-                        hover:bg-black/60
-                        transition
+                        hover:scale-105
+                        transition-all
                       "
+                      style={{
+                        background: "rgba(255,255,255,0.15)",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                      }}
                     >
                       <ChevronRight size={20} />
                     </button>
                   )}
 
-                  {/* Dots */}
+                  {/* DOTS */}
                   {project.image?.length > 1 && (
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                       {project.image.map((_, index) => (
@@ -194,30 +226,76 @@ export default function ProjectModal({ project, onClose }: Props) {
                 {/* CONTENT */}
                 <div className="flex flex-1 flex-col overflow-hidden">
                   {/* HEADER */}
-                  <div className="border-b border-zinc-200 dark:border-zinc-800 p-6 sm:p-8">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100">
+                  <div
+                    className="p-6 sm:p-8"
+                    style={{
+                      borderBottom: "1px solid var(--border)",
+                    }}
+                  >
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold"
+                      style={{ color: "var(--text)" }}
+                    >
                       {project.title}
                     </h2>
 
-                    <div className="mt-2 flex gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                    <div
+                      className="mt-2 flex gap-2 text-sm"
+                      style={{ color: "var(--muted)" }}
+                    >
                       <span>{project.date}</span>
                       <span>•</span>
                       <span>{project.jobType}</span>
                     </div>
+
+                    {/* TECH STACK */}
+                    {project.stack?.length ? (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {project.stack.map((tech) => (
+                          <div
+                            key={tech}
+                            className="
+                              inline-flex items-center gap-2
+                              rounded-full
+                              px-3 py-1.5
+                              text-xs font-medium
+                            "
+                            style={{
+                              background: "var(--bg)",
+                              color: "var(--text)",
+                              border: "1px solid var(--border)",
+                            }}
+                          >
+                            {stackIcons[tech] ?? null}
+                            <span>{tech}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
 
                   {/* BODY */}
                   <div className="flex-1 overflow-y-auto p-6 sm:p-8">
-                    <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed text-sm sm:text-base">
+                    <p
+                      className="leading-relaxed text-sm sm:text-base"
+                      style={{ color: "var(--muted)" }}
+                    >
                       {project.description}
                     </p>
 
                     {project.features?.length ? (
                       <div className="mt-8">
-                        <h3 className="mb-3 font-semibold text-zinc-900 dark:text-zinc-100">
+                        <h3
+                          className="mb-3 font-semibold"
+                          style={{ color: "var(--text)" }}
+                        >
                           Features
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+
+                        <ul
+                          className="list-disc pl-5 space-y-2 text-sm"
+                          style={{ color: "var(--muted)" }}
+                        >
                           {project.features.map((feature) => (
                             <li key={feature}>{feature}</li>
                           ))}
@@ -233,13 +311,16 @@ export default function ProjectModal({ project, onClose }: Props) {
                           rel="noreferrer"
                           className="
                             inline-flex items-center gap-2
-                            px-4 py-2 rounded-lg
-                            bg-zinc-900 dark:bg-white
-                            text-white dark:text-black
+                            px-4 py-2
+                            rounded-xl
+                            text-white
                             font-medium
                             hover:opacity-90
-                            transition
+                            transition-all
                           "
+                          style={{
+                            background: "var(--accent)",
+                          }}
                         >
                           <ExternalLink size={16} />
                           View Live Project
