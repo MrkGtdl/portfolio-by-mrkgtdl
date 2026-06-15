@@ -59,7 +59,6 @@ export default function ProjectModal({ project, onClose }: Props) {
 
     const original = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     setCurrentImage(0);
 
     return () => {
@@ -73,33 +72,37 @@ export default function ProjectModal({ project, onClose }: Props) {
         <>
           {/* BACKDROP */}
           <motion.div
-            className="fixed inset-0 z-[9998] h-full backdrop-blur-md bg-black/40 dark:bg-black/75"
+            className="fixed inset-0 z-[9998] backdrop-blur-md bg-black/40 dark:bg-black/75"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
 
-          {/* OUTER STAGE */}
+          {/* STAGE */}
           <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center px-4 h-screen"
+            className="
+              fixed inset-0 z-[9999]
+              flex items-end sm:items-center justify-center
+              p-0 sm:p-4
+              translate-y-8 sm:translate-y-0
+            "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {/* OUTER CONTAINER */}
+            {/* MODAL */}
             <motion.div
               className="
                 relative
-                w-[95vw]
-                max-w-5xl
-                min-h-[80vh]
-                max-h-[92vh]
-                p-4 pt-14
-                sm:p-6 sm:pt-16
-                rounded-3xl
+                w-full sm:w-[95vw] sm:max-w-5xl
+                h-[100dvh] sm:h-auto
+                sm:min-h-[80vh] sm:max-h-[92vh]
+                rounded-none sm:rounded-3xl
+                overflow-hidden
                 backdrop-blur-xl
                 shadow-2xl
+                flex flex-col
               "
               style={{
                 background:
@@ -109,249 +112,176 @@ export default function ProjectModal({ project, onClose }: Props) {
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ duration: 0.25 }}
             >
-              {/* CLOSE BUTTON */}
+              {/* CLOSE */}
               <button
                 onClick={onClose}
                 className="
-                  absolute top-4 right-4 z-50
-                  h-11 w-11
+                  absolute top-3 right-3 sm:top-4 sm:right-4
+                  h-10 w-10 sm:h-11 sm:w-11
                   flex items-center justify-center
                   rounded-full
-                  shadow-lg
-                  hover:scale-105
                   transition-all duration-200
+                  z-[60]
+                  hover:scale-105 active:scale-95
+                  backdrop-blur-md
+                    dark:bg-black/60
+                dark:text-white
+                dark:border-white/10
                 "
                 style={{
-                  background: "var(--surface)",
-                  color: "var(--text)",
-                  border: "1px solid var(--border)",
+                  background: "rgba(255,255,255,0.85)",
+                  color: "#111",
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
                 }}
               >
-                <X size={18} />
+                <X size={20} className="opacity-90" />
               </button>
 
-              {/* INNER MODAL CARD */}
-              <motion.div
-                className="
-                  relative
-                  w-full
-                  h-[70vh]
-                  overflow-hidden
-                  rounded-2xl
-                  shadow-xl
-                  flex
-                  flex-col
-                "
-                style={{
-                  background: "var(--surface)",
-                  border: "1px solid var(--border)",
-                }}
-                initial={{ scale: 0.98 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.98 }}
-              >
-                {/* IMAGE CAROUSEL */}
-                <div className="relative h-[55%] shrink-0 overflow-hidden">
-                  {project.image?.length > 0 && (
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={currentImage}
-                        src={project.image[currentImage]}
-                        alt={`${project.title}-${currentImage}`}
-                        className="h-full w-full object-cover"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.25 }}
-                      />
-                    </AnimatePresence>
-                  )}
+              {/* IMAGE */}
+              <div className="relative shrink-0 h-[40vh] sm:h-[55%] overflow-hidden">
+                {project.image?.length > 0 && (
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={currentImage}
+                      src={project.image[currentImage]}
+                      className="h-full w-full object-cover"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    />
+                  </AnimatePresence>
+                )}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                  {/* PREV */}
-                  {project.image?.length > 1 && (
-                    <button
-                      onClick={() =>
-                        setCurrentImage(
-                          currentImage === 0
-                            ? project.image.length - 1
-                            : currentImage - 1,
-                        )
-                      }
-                      className="
-                        absolute left-4 top-1/2 -translate-y-1/2
-                        h-10 w-10 rounded-full
-                        text-white
-                        backdrop-blur-md
-                        flex items-center justify-center
-                        hover:scale-105
-                        transition-all
-                      "
-                      style={{
-                        background: "rgba(255,255,255,0.15)",
-                        border: "1px solid rgba(255,255,255,0.15)",
-                      }}
-                    >
-                      <ChevronLeft size={20} />
-                    </button>
-                  )}
-
-                  {/* NEXT */}
-                  {project.image?.length > 1 && (
-                    <button
-                      onClick={() =>
-                        setCurrentImage(
-                          currentImage === project.image.length - 1
-                            ? 0
-                            : currentImage + 1,
-                        )
-                      }
-                      className="
-                        absolute right-4 top-1/2 -translate-y-1/2
-                        h-10 w-10 rounded-full
-                        text-white
-                        backdrop-blur-md
-                        flex items-center justify-center
-                        hover:scale-105
-                        transition-all
-                      "
-                      style={{
-                        background: "rgba(255,255,255,0.15)",
-                        border: "1px solid rgba(255,255,255,0.15)",
-                      }}
-                    >
-                      <ChevronRight size={20} />
-                    </button>
-                  )}
-
-                  {/* DOTS */}
-                  {project.image?.length > 1 && (
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                      {project.image.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentImage(index)}
-                          className={`h-2 rounded-full transition-all ${
-                            currentImage === index
-                              ? "w-6 bg-white"
-                              : "w-2 bg-white/50"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* CONTENT */}
-                <div className="flex flex-1 flex-col overflow-hidden">
-                  {/* HEADER */}
-                  <div
-                    className="p-6 sm:p-8"
+                {/* PREV */}
+                {project.image?.length > 1 && (
+                  <button
+                    onClick={() =>
+                      setCurrentImage(
+                        currentImage === 0
+                          ? project.image.length - 1
+                          : currentImage - 1,
+                      )
+                    }
+                    className="
+                      absolute left-2 sm:left-4 top-1/2 -translate-y-1/2
+                      h-8 w-8 sm:h-10 sm:w-10
+                      rounded-full
+                      flex items-center justify-center
+                      text-white
+                      backdrop-blur-md
+                    "
                     style={{
-                      borderBottom: "1px solid var(--border)",
+                      background: "rgba(255,255,255,0.15)",
                     }}
                   >
-                    <h2
-                      className="text-2xl sm:text-3xl font-bold"
-                      style={{ color: "var(--text)" }}
-                    >
-                      {project.title}
-                    </h2>
+                    <ChevronLeft size={18} />
+                  </button>
+                )}
 
-                    <div
-                      className="mt-2 flex gap-2 text-sm"
-                      style={{ color: "var(--muted)" }}
-                    >
-                      <span>{project.date}</span>
-                      <span>•</span>
-                      <span>{project.jobType}</span>
-                    </div>
+                {/* NEXT */}
+                {project.image?.length > 1 && (
+                  <button
+                    onClick={() =>
+                      setCurrentImage(
+                        currentImage === project.image.length - 1
+                          ? 0
+                          : currentImage + 1,
+                      )
+                    }
+                    className="
+                      absolute right-2 sm:right-4 top-1/2 -translate-y-1/2
+                      h-8 w-8 sm:h-10 sm:w-10
+                      rounded-full
+                      flex items-center justify-center
+                      text-white
+                      backdrop-blur-md
+                    "
+                    style={{
+                      background: "rgba(255,255,255,0.15)",
+                    }}
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                )}
 
-                    {/* TECH STACK */}
-                    {project.stack?.length ? (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {project.stack.map((tech) => (
-                          <div
-                            key={tech}
-                            className="
-                              inline-flex items-center gap-2
-                              rounded-full
-                              px-3 py-1.5
-                              text-xs font-medium
-                            "
-                            style={{
-                              background: "var(--bg)",
-                              color: "var(--text)",
-                              border: "1px solid var(--border)",
-                            }}
-                          >
-                            {stackIcons[tech] ?? null}
-                            <span>{tech}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : null}
+                {/* DOTS */}
+                {project.image?.length > 1 && (
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                    {project.image.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImage(index)}
+                        className={`h-2 rounded-full transition-all ${
+                          currentImage === index
+                            ? "w-6 bg-white"
+                            : "w-2 bg-white/50"
+                        }`}
+                      />
+                    ))}
                   </div>
+                )}
+              </div>
 
-                  {/* BODY */}
-                  <div className="flex-1 overflow-y-auto p-6 sm:p-8">
-                    <p
-                      className="leading-relaxed text-sm sm:text-base"
-                      style={{ color: "var(--muted)" }}
-                    >
-                      {project.description}
-                    </p>
+              {/* CONTENT */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-8">
+                <h2
+                  className="text-xl sm:text-3xl font-bold"
+                  style={{ color: "var(--text)" }}
+                >
+                  {project.title}
+                </h2>
 
-                    {project.features?.length ? (
-                      <div className="mt-8">
-                        <h3
-                          className="mb-3 font-semibold"
-                          style={{ color: "var(--text)" }}
-                        >
-                          Features
-                        </h3>
-
-                        <ul
-                          className="list-disc pl-5 space-y-2 text-sm"
-                          style={{ color: "var(--muted)" }}
-                        >
-                          {project.features.map((feature) => (
-                            <li key={feature}>{feature}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-
-                    {project.liveUrl && (
-                      <div className="mt-8">
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="
-                            inline-flex items-center gap-2
-                            px-4 py-2
-                            rounded-xl
-                            text-white
-                            font-medium
-                            hover:opacity-90
-                            transition-all
-                          "
-                          style={{
-                            background: "var(--accent)",
-                          }}
-                        >
-                          <ExternalLink size={16} />
-                          View Live Project
-                        </a>
-                      </div>
-                    )}
-                  </div>
+                <div
+                  className="mt-2 text-xs sm:text-sm flex gap-2"
+                  style={{ color: "var(--muted)" }}
+                >
+                  <span>{project.date}</span>
+                  <span>•</span>
+                  <span>{project.jobType}</span>
                 </div>
-              </motion.div>
+
+                {/* STACK */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.stack?.map((tech) => (
+                    <div
+                      key={tech}
+                      className="flex items-center gap-2 px-3 py-1.5 text-xs rounded-full border"
+                      style={{
+                        background: "var(--bg)",
+                        borderColor: "var(--border)",
+                      }}
+                    >
+                      {stackIcons[tech]}
+                      {tech}
+                    </div>
+                  ))}
+                </div>
+
+                <p
+                  className="mt-6 text-sm sm:text-base leading-relaxed"
+                  style={{ color: "var(--muted)" }}
+                >
+                  {project.description}
+                </p>
+
+                {project.liveUrl && (
+                  <div className="mt-6">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white"
+                      style={{ background: "var(--accent)" }}
+                    >
+                      <ExternalLink size={16} />
+                      View Live
+                    </a>
+                  </div>
+                )}
+              </div>
             </motion.div>
           </motion.div>
         </>
