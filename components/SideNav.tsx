@@ -32,14 +32,20 @@ export default function SideNav() {
       .filter(Boolean) as HTMLElement[];
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]) => {
         let best: { id: string; ratio: number } | null = null;
 
         entries.forEach((entry) => {
+          const target = entry.target as HTMLElement;
+
           if (entry.isIntersecting) {
             const ratio = entry.intersectionRatio;
+
             if (!best || ratio > best.ratio) {
-              best = { id: entry.target.id, ratio };
+              best = {
+                id: target.id,
+                ratio,
+              };
             }
           }
         });

@@ -73,7 +73,7 @@ export default function ProjectModal({ project, onClose }: Props) {
         <>
           {/* BACKDROP */}
           <motion.div
-            className="fixed inset-0 z-[9998] backdrop-blur-md bg-black/40 dark:bg-black/75"
+            className="fixed inset-0 z-[9998] h-full backdrop-blur-md bg-black/40 dark:bg-black/75"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
