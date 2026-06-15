@@ -38,19 +38,23 @@ export default function SideNav() {
         entries.forEach((entry) => {
           const target = entry.target as HTMLElement;
 
-          if (entry.isIntersecting) {
-            const ratio = entry.intersectionRatio;
+          if (!entry.isIntersecting) return;
 
-            if (!best || ratio > best.ratio) {
-              best = {
-                id: target.id,
-                ratio,
-              };
-            }
+          const ratio = entry.intersectionRatio;
+
+          const current = {
+            id: target.id,
+            ratio,
+          };
+
+          if (!best || current.ratio > best.ratio) {
+            best = current;
           }
         });
 
-        if (best) setActive(best.id);
+        if (best !== null) {
+          setActive(best.id);
+        }
       },
       {
         threshold: [0.2, 0.4, 0.6],
