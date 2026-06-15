@@ -35,24 +35,22 @@ export default function SideNav() {
       (entries: IntersectionObserverEntry[]) => {
         let best: { id: string; ratio: number } | null = null;
 
-        entries.forEach((entry) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+
           const target = entry.target as HTMLElement;
-
-          if (!entry.isIntersecting) return;
-
-          const ratio = entry.intersectionRatio;
 
           const current = {
             id: target.id,
-            ratio,
+            ratio: entry.intersectionRatio,
           };
 
           if (!best || current.ratio > best.ratio) {
             best = current;
           }
-        });
+        }
 
-        if (best !== null) {
+        if (best) {
           setActive(best.id);
         }
       },
