@@ -24,13 +24,14 @@ import {
 } from "react-icons/si";
 import type { Project } from "@/constants/projects";
 import { useEffect, useState } from "react";
+import type { ReactElement } from "react";
 
 type Props = {
   project: Project | null;
   onClose: () => void;
 };
 
-const stackIcons: Record<string, JSX.Element> = {
+const stackIcons: Record<string, ReactElement> = {
   "Next.js": <SiNextdotjs size={14} />,
   React: <SiReact size={14} />,
   TypeScript: <SiTypescript size={14} />,
