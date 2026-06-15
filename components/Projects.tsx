@@ -17,10 +17,10 @@ export default function Projects() {
 
   const controls = useAnimation();
 
-  // ✅ MODAL STATE (card click)
+  // MODAL STATE
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  // ✅ DRAWER STATE (See More button)
+  // DRAWER STATE
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -61,27 +61,16 @@ export default function Projects() {
           }}
           className="
             relative z-10
-
             min-h-auto
             lg:min-h-[calc(100vh-5rem)]
-
-            max-w-7xl
-            mx-auto
-
+            max-w-7xl mx-auto
             rounded-2xl
             border border-[color:var(--border)]
-
             bg-[color:var(--surface)]
             backdrop-blur-md
             shadow-2xl
-
-            px-5
-            sm:px-8
-            md:px-12
-
-            py-12
-            sm:py-16
-            md:py-20
+            px-5 sm:px-8 md:px-12
+            py-12 sm:py-16 md:py-20
           "
         >
           {/* TITLE */}
@@ -89,27 +78,26 @@ export default function Projects() {
             <h2 className="font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl">
               THINGS
             </h2>
-
             <h2 className="font-black text-[color:var(--accent)] text-4xl sm:text-5xl md:text-7xl lg:text-8xl -mt-1 md:-mt-2">
               I&apos;VE BUILT
             </h2>
           </div>
 
-          {/* PROJECT GRID */}
+          {/* GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
             {featuredProjects.map((project) => (
               <ProjectCard
                 key={project.title}
                 project={project}
-                onOpen={(p) => setSelectedProject(p)} // ✅ MODAL OPEN
+                onOpen={(p) => setSelectedProject(p)}
               />
             ))}
           </div>
 
-          {/* SEE MORE BUTTON */}
+          {/* BUTTON */}
           <div className="mt-8 flex justify-stretch sm:justify-end">
             <motion.button
-              onClick={() => setDrawerOpen(true)} // ✅ DRAWER OPEN
+              onClick={() => setDrawerOpen(true)}
               className="
                 w-full sm:w-auto
                 px-8 py-3
@@ -126,19 +114,21 @@ export default function Projects() {
         </motion.div>
       </motion.section>
 
-      {/* ✅ MODAL (CARD CLICK) */}
+      {/* MODAL (ABOVE EVERYTHING) */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
       />
 
-      {/* ✅ DRAWER (SEE MORE BUTTON) */}
-      <ProjectDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        projects={projects}
-        onOpen={(p) => setSelectedProject(p)} // ✅ ADD THIS
-      />
+      {/* DRAWER (BEHIND MODAL WHEN BOTH OPEN) */}
+      <div className={selectedProject ? "z-[40]" : "z-[60] relative"}>
+        <ProjectDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          projects={projects}
+          onOpen={(p) => setSelectedProject(p)}
+        />
+      </div>
     </>
   );
 }
