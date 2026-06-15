@@ -1,18 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-export type Project = {
-  id?: string | number;
-  title: string;
-  description: string;
-  date?: string;
-  jobType?: string;
-  image: string[];
-
-  // Controls if this card opens modal
-  hasModal?: boolean;
-};
+import type { Project } from "@/types/project";
 
 export default function ProjectCard({
   project,
