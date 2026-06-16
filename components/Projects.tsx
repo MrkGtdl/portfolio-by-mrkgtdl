@@ -3,12 +3,12 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-import type { Project } from "@/constants/projects";
+import { projects, type Project } from "@/constants/projects";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectModal from "@/components/ProjectModal";
 import ProjectDrawer from "./ProjectDrawer";
 
-const featuredProjects = Project.slice(0, 3);
+const featuredProjects = projects.slice(0, 3);
 
 export default function Projects() {
   const sectionRef = useRef(null);
@@ -133,7 +133,7 @@ export default function Projects() {
         <ProjectDrawer
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          projects={Project}
+          projects={projects}
           onOpen={(p) => setSelectedProject(p)}
         />
       </div>
