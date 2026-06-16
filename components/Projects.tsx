@@ -3,11 +3,10 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-import { projects } from "@/constants/projects";
+import type { Project } from "@/constants/projects";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectModal from "@/components/ProjectModal";
 import ProjectDrawer from "./ProjectDrawer";
-import type { Project } from "@/components/ProjectCard";
 
 const featuredProjects = projects.slice(0, 3);
 
