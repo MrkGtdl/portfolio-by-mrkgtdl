@@ -8,7 +8,7 @@ import ProjectCard from "@/components/ProjectCard";
 import ProjectModal from "@/components/ProjectModal";
 import ProjectDrawer from "./ProjectDrawer";
 
-const featuredProjects = projects.slice(0, 3);
+const featuredProjects = Project.slice(0, 3);
 
 export default function Projects() {
   const sectionRef = useRef(null);
@@ -133,7 +133,7 @@ export default function Projects() {
         <ProjectDrawer
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          projects={projects}
+          projects={Project}
           onOpen={(p) => setSelectedProject(p)}
         />
       </div>
