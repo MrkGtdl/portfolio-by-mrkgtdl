@@ -87,6 +87,7 @@ export default function ProjectDrawer({
 
               rounded-2xl
 
+              min-h-0
               border border-[color:var(--border)]
 
               bg-[color:var(--bg)]
@@ -238,15 +239,7 @@ export default function ProjectDrawer({
                   return (
                     <div
                       key={i}
-                      className="
-                        min-w-full
-
-                        flex
-                        justify-center
-                        items-start
-
-                        p-3 sm:p-6
-                      "
+                      className="min-w-full h-full overflow-y-auto flex justify-center items-start p-3 sm:p-6"
                     >
                       <div
                         className="

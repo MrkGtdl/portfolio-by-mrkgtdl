@@ -67,6 +67,30 @@ export default function ProjectModal({ project, onClose }: Props) {
     };
   }, [project]);
 
+  useEffect(() => {
+    if (!project) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+
+      if (e.key === "ArrowLeft" && project.image?.length > 1) {
+        setCurrentImage((prev) =>
+          prev === 0 ? project.image.length - 1 : prev - 1,
+        );
+      }
+
+      if (e.key === "ArrowRight" && project.image?.length > 1) {
+        setCurrentImage((prev) =>
+          prev === project.image.length - 1 ? 0 : prev + 1,
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [project, onClose]);
+
   return (
     <AnimatePresence>
       {project && (
@@ -86,12 +110,29 @@ export default function ProjectModal({ project, onClose }: Props) {
               fixed inset-0 z-[9999]
               flex items-end sm:items-center justify-center
               p-0 sm:p-4
-              translate-y-8 sm:translate-y-0
             "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
+            <button
+              aria-label="Close modal"
+              onClick={onClose}
+              className="
+                absolute
+                top-3 sm:top-4
+                right-3 sm:right-4
+                z-50
+                h-12 w-12
+                flex items-center justify-center
+                rounded-full
+                bg-black/70 text-white
+                backdrop-blur-md
+                shadow-lg
+              "
+            >
+              <X size={22} />
+            </button>
             {/* MODAL */}
             <motion.div
               className="
@@ -101,65 +142,57 @@ export default function ProjectModal({ project, onClose }: Props) {
                 sm:min-h-[80vh] sm:max-h-[92vh]
                 rounded-none sm:rounded-3xl
                 overflow-hidden
-                backdrop-blur-xl
+                pt-16 sm:pt-0
+                backdrop-blur-2xl
                 shadow-2xl
                 flex flex-col
+
+                bg-white/90
+                dark:bg-zinc-900/90
+
+                border
+                border-zinc-200
+                dark:border-zinc-800
+
+                transition-colors duration-300
               "
-              style={{
-                background:
-                  "color-mix(in srgb, var(--surface) 95%, transparent)",
-                border: "1px solid var(--border)",
-              }}
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
             >
-              {/* CLOSE */}
-              <button
-                onClick={onClose}
-                className="
-                  absolute top-3 right-3 sm:top-4 sm:right-4
-                  h-10 w-10 sm:h-11 sm:w-11
-                  flex items-center justify-center
-                  rounded-full
-                  transition-all duration-200
-                  z-[60]
-                  hover:scale-105 active:scale-95
-                  backdrop-blur-md
-                    dark:bg-black/60
-                dark:text-white
-                dark:border-white/10
-                "
-                style={{
-                  background: "rgba(255,255,255,0.85)",
-                  color: "#111",
-                  border: "1px solid rgba(0,0,0,0.1)",
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
-                }}
-              >
-                <X size={20} className="opacity-90" />
-              </button>
-
               {/* IMAGE */}
-              <div className="relative shrink-0 h-[40vh] sm:h-[55%] overflow-hidden">
+              <div className="relative flex-[0.45] sm:flex-[0.55] overflow-hidden">
                 {project.image?.length > 0 && (
                   <AnimatePresence mode="wait">
                     <motion.img
+                      draggable={false}
                       key={currentImage}
                       src={project.image[currentImage]}
                       className="h-full w-full object-cover"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, scale: 1.03 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.25 }}
                     />
                   </AnimatePresence>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div
+                  className="
+                    absolute inset-0
+                    bg-gradient-to-t
+                    from-black/60
+                    via-black/10
+                    to-transparent
+                    dark:from-black/80
+                    dark:via-black/30
+                  "
+                />
 
                 {/* PREV */}
                 {project.image?.length > 1 && (
                   <button
+                    aria-label="Previous image"
                     onClick={() =>
                       setCurrentImage(
                         currentImage === 0
@@ -174,10 +207,10 @@ export default function ProjectModal({ project, onClose }: Props) {
                       flex items-center justify-center
                       text-white
                       backdrop-blur-md
+                      bg-white/15
+                      hover:bg-white/25
+                      transition-colors
                     "
-                    style={{
-                      background: "rgba(255,255,255,0.15)",
-                    }}
                   >
                     <ChevronLeft size={18} />
                   </button>
@@ -186,6 +219,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                 {/* NEXT */}
                 {project.image?.length > 1 && (
                   <button
+                    aria-label="Next image"
                     onClick={() =>
                       setCurrentImage(
                         currentImage === project.image.length - 1
@@ -200,10 +234,10 @@ export default function ProjectModal({ project, onClose }: Props) {
                       flex items-center justify-center
                       text-white
                       backdrop-blur-md
+                      bg-white/15
+                      hover:bg-white/25
+                      transition-colors
                     "
-                    style={{
-                      background: "rgba(255,255,255,0.15)",
-                    }}
                   >
                     <ChevronRight size={18} />
                   </button>
@@ -230,15 +264,26 @@ export default function ProjectModal({ project, onClose }: Props) {
               {/* CONTENT */}
               <div className="flex-1 overflow-y-auto p-4 sm:p-8">
                 <h2
-                  className="text-xl sm:text-3xl font-bold"
-                  style={{ color: "var(--text)" }}
+                  className="
+                    text-xl sm:text-3xl
+                    font-bold
+                    text-zinc-900
+                    dark:text-white
+                    transition-colors duration-300
+                  "
                 >
                   {project.title}
                 </h2>
 
                 <div
-                  className="mt-2 text-xs sm:text-sm flex gap-2"
-                  style={{ color: "var(--muted)" }}
+                  className="
+                    mt-2
+                    text-xs sm:text-sm
+                    flex gap-2
+                    text-zinc-500
+                    dark:text-zinc-400
+                    transition-colors duration-300
+                  "
                 >
                   <span>{project.date}</span>
                   <span>•</span>
@@ -250,11 +295,25 @@ export default function ProjectModal({ project, onClose }: Props) {
                   {project.stack?.map((tech) => (
                     <div
                       key={tech}
-                      className="flex items-center gap-2 px-3 py-1.5 text-xs rounded-full border"
-                      style={{
-                        background: "var(--bg)",
-                        borderColor: "var(--border)",
-                      }}
+                      className="
+                        flex items-center gap-2
+                        px-3 py-1.5
+                        text-xs
+                        rounded-full
+                        border
+
+                        transition-all duration-200
+
+                        bg-zinc-100
+                        border-zinc-200
+                        text-zinc-700
+                        hover:bg-zinc-200
+
+                        dark:bg-zinc-800
+                        dark:border-zinc-700
+                        dark:text-zinc-200
+                        dark:hover:bg-zinc-700
+                      "
                     >
                       {stackIcons[tech]}
                       {tech}
@@ -263,8 +322,14 @@ export default function ProjectModal({ project, onClose }: Props) {
                 </div>
 
                 <p
-                  className="mt-6 text-sm sm:text-base leading-relaxed"
-                  style={{ color: "var(--muted)" }}
+                  className="
+                    mt-6
+                    text-sm sm:text-base
+                    leading-relaxed
+                    text-zinc-600
+                    dark:text-zinc-300
+                    transition-colors duration-300
+                  "
                 >
                   {project.description}
                 </p>
@@ -274,8 +339,17 @@ export default function ProjectModal({ project, onClose }: Props) {
                     <a
                       href={project.liveUrl}
                       target="_blank"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white"
-                      style={{ background: "var(--accent)" }}
+                      rel="noopener noreferrer"
+                      className="
+                        inline-flex items-center gap-2
+                        px-4 py-2
+                        rounded-xl
+                        text-white
+                        bg-blue-600
+                        hover:bg-blue-700
+                        transition-all duration-200
+                        hover:scale-[1.02]
+                      "
                     >
                       <ExternalLink size={16} />
                       View Live
