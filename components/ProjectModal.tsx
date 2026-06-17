@@ -110,6 +110,8 @@ export default function ProjectModal({ project, onClose }: Props) {
               fixed inset-0 z-[9999]
               flex items-end sm:items-center justify-center
               p-0 sm:p-4
+              pt-[env(safe-area-inset-top)]
+              pb-[env(safe-area-inset-bottom)]
             "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -120,9 +122,9 @@ export default function ProjectModal({ project, onClose }: Props) {
               onClick={onClose}
               className="
                 absolute
-                top-3 sm:top-4
-                right-3 sm:right-4
-                z-50
+                top-[calc(env(safe-area-inset-top)+12px)]
+                right-4
+                z-[100]
                 h-12 w-12
                 flex items-center justify-center
                 rounded-full
