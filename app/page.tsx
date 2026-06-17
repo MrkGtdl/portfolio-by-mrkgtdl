@@ -56,7 +56,13 @@ export default function Home() {
         >
           <Hero />
 
-          <div className="rounded px-4 py-3">
+          {/* Mobile */}
+          <div className="fixed top-4 right-4 z-50 lg:hidden">
+            <BulbToggle />
+          </div>
+
+          {/* Desktop */}
+          <div className="hidden lg:block rounded px-4 py-3">
             <BulbToggle />
           </div>
         </div>

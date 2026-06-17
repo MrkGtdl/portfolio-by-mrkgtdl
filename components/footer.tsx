@@ -16,19 +16,43 @@ export default function Footer() {
     });
   };
 
+  const downloadResume = () => {
+    const link = document.createElement("a");
+    link.href = "/resume.pdf";
+    link.download = "Mark-Kenneth-Gatdula.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const items = [
-    { icon: FaLinkedin, id: "linkedin" },
-    { icon: FaGithub, id: "github" },
-    { icon: FaFileDownload, id: "resume" }, // 👈 added resume
+    {
+      icon: FaLinkedin,
+      url: "https://www.linkedin.com/in/mark-gatdula-9a5796116",
+    },
+    {
+      icon: FaGithub,
+      url: "https://github.com/MrkGtdl",
+    },
+    {
+      icon: FaFileDownload,
+      id: "resume",
+    },
   ];
 
   return (
     <nav className="w-full flex items-center">
       <div className="w-full flex justify-center items-center gap-4">
-        {items.map(({ icon: Icon, id }) => (
+        {items.map(({ icon: Icon, id, url }) => (
           <button
-            key={id}
-            onClick={() => scrollTo(id)}
+            key={id ?? url}
+            onClick={() => {
+              if (id === "resume") {
+                downloadResume();
+              } else if (url) {
+                window.open(url, "_blank");
+              }
+            }}
             className="text-slate-400 hover:text-white transition p-2 rounded-lg hover:bg-slate-800"
           >
             <Icon size={20} />

@@ -57,7 +57,7 @@ export default function Hero() {
                 <img
                   src="/prof.png"
                   alt="Profile"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
