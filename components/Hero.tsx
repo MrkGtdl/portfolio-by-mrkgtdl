@@ -97,8 +97,8 @@ export default function Hero() {
                 text-[color:var(--muted)]
               "
             >
-              A Full Stack Developer passionate about building innovative,
-              scalable, and user-focused digital solutions.
+              I help businesses build modern websites and web applications that
+              attract customers and grow their online presence.
             </p>
 
             {/* FOOTER */}

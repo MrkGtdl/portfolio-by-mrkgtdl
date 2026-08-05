@@ -34,8 +34,8 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: "mdt",
-    title: "Master Data Tool (MDT)",
+    id: "certus",
+    title: "Certus",
     description:
       "Web system for logging, tracking, and managing incident reports in real-time.",
     date: "2025",
@@ -144,7 +144,7 @@ export const projects: Project[] = [
     description:
       "A digital appointment system that helps healthcare facilities manage patients, consultations, schedules, and provider assignments in one secure and organized platform.",
     date: "2026",
-    jobType: "Freelance",
+    jobType: "Personal Project",
     image: [
       "/medisync/med-1.png",
       "/medisync/med-2.png",
@@ -152,5 +152,20 @@ export const projects: Project[] = [
     ],
     hasModal: true,
     stack: ["Next.js", "TypeScript", "TailwindCSS", "React", "Supabase"],
+  },
+  {
+    id: "novatech",
+    title: "Novatech",
+    description: "Innovative technology solutions for modern businesses.",
+    date: "2026",
+    jobType: "Personal Project",
+    image: [
+      "/novatech/novatech-1.png",
+      "/novatech/novatech-2.png",
+      "/novatech/novatech-3.png",
+      "/novatech/novatech-4.png",
+    ],
+    hasModal: true,
+    stack: ["WordPress"],
   },
 ];

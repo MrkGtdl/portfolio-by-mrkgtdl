@@ -121,6 +121,18 @@ export default function Contact() {
           </h2>
         </div>
 
+        {/* INTRO */}
+        <div className="mt-6 max-w-2xl">
+          <h3 className="text-xl md:text-2xl font-semibold text-[color:var(--text)]">
+            Let's discuss your project.
+          </h3>
+
+          <p className="mt-2 text-sm md:text-base text-[color:var(--muted)] leading-relaxed">
+            Have an idea, a project, or just want to connect? Send me a message
+            and I'll reply within 24 hours.
+          </p>
+        </div>
+
         {/* FORM */}
         <div className="max-w-2xl mx-auto w-full mt-8 md:mt-10">
           <form

@@ -27,6 +27,8 @@ import {
   OpenaiIcon,
   GoogleGemini,
   Graphql,
+  GithubCopilot,
+  WordpressIcon,
 } from "@dev.icons/react";
 
 const tabs = [
@@ -55,6 +57,11 @@ const skills = {
       description: "Programming Language",
       icon: Javascript,
     },
+    {
+      name: "Wordpress",
+      description: "Content Management System",
+      icon: WordpressIcon,
+    },
   ],
   backend: [
     { name: "Node.js", description: "JavaScript Runtime", icon: NodejsIcon },
@@ -82,7 +89,35 @@ const skills = {
     { name: "Docker", description: "Containerization", icon: DockerIcon },
     { name: "ChatGPT", description: "AI Assistant", icon: OpenaiIcon },
     { name: "Gemini", description: "AI Assistant", icon: GoogleGemini },
+    {
+      name: "Github Copilot",
+      description: "AI Assistant",
+      icon: GithubCopilot,
+    },
   ],
+};
+
+const tabContent = {
+  frontend: {
+    title: "Front End Development",
+    description:
+      "Building responsive, interactive, and user-friendly interfaces using modern web technologies.",
+  },
+  backend: {
+    title: "Back End Development",
+    description:
+      "Developing secure APIs, server-side applications, and scalable business logic.",
+  },
+  database: {
+    title: "Database Management",
+    description:
+      "Designing, managing, and optimizing relational databases for reliable data storage.",
+  },
+  others: {
+    title: "Tools & Productivity",
+    description:
+      "Development tools, version control, containers, and AI-powered assistants that improve workflow.",
+  },
 };
 
 export default function Skills() {
@@ -155,6 +190,27 @@ export default function Skills() {
         <div className="flex flex-col md:flex-row gap-8 pb-24 md:pb-0">
           {/* SKILLS */}
           <div className="flex-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab + "-header"}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                className="mb-8"
+              >
+                <h3 className="text-base md:text-lg font-semibold tracking-wide text-[color:var(--accent)] uppercase">
+                  {tabContent[activeTab].title}
+                </h3>
+
+                <p className="mt-1 max-w-xl text-sm text-[color:var(--muted)]">
+                  {tabContent[activeTab].description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            <AnimatePresence mode="wait" />
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}

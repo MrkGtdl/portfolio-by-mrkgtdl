@@ -121,7 +121,7 @@ export default function About() {
           >
             {[
               { label: "Years of Experience", value: 4 },
-              { label: "Total Projects", value: 7 },
+              { label: "Total Projects", value: 8 },
               { label: "Tech Skills", value: 16 },
             ].map((item, i) => (
               <div
