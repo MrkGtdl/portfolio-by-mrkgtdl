@@ -60,7 +60,6 @@ export default function Hero() {
                   loop
                   muted
                   playsInline
-                  alt="Profile"
                   className="w-full h-100 object-cover mx-auto"
                 />
               </div>
