@@ -168,4 +168,19 @@ export const projects: Project[] = [
     hasModal: true,
     stack: ["WordPress"],
   },
+  {
+    id: "smilecare",
+    title: "SmileCare Dental Clinic",
+    description: "Innovative technology solutions for modern businesses.",
+    date: "2026",
+    jobType: "Personal Project",
+    image: [
+      "/novatech/novatech-1.png",
+      "/novatech/novatech-2.png",
+      "/novatech/novatech-3.png",
+      "/novatech/novatech-4.png",
+    ],
+    hasModal: true,
+    stack: ["WordPress"],
+  },
 ];

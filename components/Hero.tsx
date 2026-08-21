@@ -54,10 +54,14 @@ export default function Hero() {
                   bg-[color:var(--muted)]/20
                 "
               >
-                <img
-                  src="/prof.png"
+                <video
+                  src="/profile-3.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   alt="Profile"
-                  className="w-full h-full object-contain"
+                  className="w-full h-100 object-cover mx-auto"
                 />
               </div>
             </div>
